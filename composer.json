@@ -1,6 +1,6 @@
 {
   "name": "codeinchq/lib-objectstorage",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sophos backup tools",
   "homepage": "https://github.com/codeinchq/lib-objectstorage",
   "type": "library",
@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CodeInc\\ObjectStorage": "src/"
+      "CodeInc\\ObjectStorage\\": "src/"
     }
   },
   "authors": [
@@ -29,9 +29,5 @@
     "preferred-install": {
       "*": "dist"
     }
-  },
-  "repositories": [
-    { "type": "vcs", "url": "https://github.com/codeinchq/lib-errordisplay" },
-    { "type": "vcs", "url": "https://github.com/codeinchq/lib-service" }
-  ]
+  }
 }
