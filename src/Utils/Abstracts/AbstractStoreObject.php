@@ -51,6 +51,6 @@ abstract class AbstractStoreObject implements DomainObjectInterface, StoreObject
 	 * @throws
 	 */
 	public function delete() {
-		$this->getParentContainer()->deleteObject($this);
+		$this->getParentContainer()->deleteObject($this->getName());
 	}
 }
