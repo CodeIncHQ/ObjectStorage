@@ -15,42 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     21/12/2017
-// Time:     15:50
+// Date:     19/12/2017
+// Time:     22:23
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\LocalStorage;
-use CodeInc\ObjectStorage\LocalStorage\LocalDirectory;
-use CodeInc\ObjectStorage\Utils\DirectoryIterator;
+namespace CodeInc\ObjectStorage\Local\Exceptions;
+use CodeInc\ObjectStorage\Interfaces\Exceptions\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Local\LocalDirectory;
+use Throwable;
 
 
 /**
- * Class LocalDirectoryIterator
+ * Class LocalDirectoryException
  *
- * @package CodeInc\ObjectStorage\LocalStorage
+ * @package CodeInc\ObjectStorage\Local
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalDirectoryIterator extends DirectoryIterator {
+class LocalDirectoryException extends LocalStorageException implements StoreContainerExceptionInterface {
 	/**
 	 * @var LocalDirectory
 	 */
-	private $localDirectory;
+	private $container;
 
 	/**
-	 * LocalDirectoryIterator constructor.
+	 * LocalDirectoryException constructor.
 	 *
-	 * @param LocalDirectory $localDirectory
+	 * @param LocalDirectory $directory
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function __construct(LocalDirectory $localDirectory) {
-		$this->localDirectory = $localDirectory;
-		parent::__construct($localDirectory->getDirectoryPath());
-		$this->ignoreHiddenFiles();
+	public function __construct(LocalDirectory $directory, string $message, Throwable $previous = null) {
+		$this->container = $directory;
+		parent::__construct($message, $previous);
 	}
 
 	/**
-	 * @return LocalFile
+	 * @return LocalDirectory
 	 */
-	public function current():LocalFile {
-		return new LocalFile(parent::current()->getBasename(), $this->localDirectory);
+	public function getContainer():StoreContainerInterface {
+		return $this->container;
 	}
 }

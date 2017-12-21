@@ -19,18 +19,16 @@
 // Time:     19:49
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\LocalStorage;
+namespace CodeInc\ObjectStorage\Local;
 use CodeInc\ObjectStorage\Utils\AbstractDirectory;
-use CodeInc\ObjectStorage\LocalStorage\Exceptions\LocalDirectoryException;
+use CodeInc\ObjectStorage\Local\Exceptions\LocalDirectoryException;
 use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
-use CodeInc\ObjectStorage\LocalStorage\LocalDirectoryIterator;
-use CodeInc\ObjectStorage\LocalStorage\LocalFile;
 
 
 /**
  * Class LocalDirectory
  *
- * @package CodeInc\ObjectStorage\LocalStorage
+ * @package CodeInc\ObjectStorage\Local
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class LocalDirectory extends AbstractDirectory {

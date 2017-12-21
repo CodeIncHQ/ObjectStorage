@@ -19,15 +19,15 @@
 // Time:     19:50
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\LocalStorage;
+namespace CodeInc\ObjectStorage\Local;
 use CodeInc\ObjectStorage\Utils\AbstractFile;
-use CodeInc\ObjectStorage\LocalStorage\LocalDirectory;
+use CodeInc\ObjectStorage\Local\LocalDirectory;
 
 
 /**
  * Class LocalObject
  *
- * @package CodeInc\ObjectStorage\LocalStorage
+ * @package CodeInc\ObjectStorage\Local
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class LocalFile extends AbstractFile {

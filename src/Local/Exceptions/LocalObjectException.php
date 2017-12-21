@@ -19,17 +19,17 @@
 // Time:     22:23
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\LocalStorage\Exceptions;
+namespace CodeInc\ObjectStorage\Local\Exceptions;
 use CodeInc\ObjectStorage\Interfaces\Exceptions\StoreObjectExceptionInterface;
 use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
-use CodeInc\ObjectStorage\LocalStorage\LocalFile;
+use CodeInc\ObjectStorage\Local\LocalFile;
 use Throwable;
 
 
 /**
  * Class LocalObjectException
  *
- * @package CodeInc\ObjectStorage\LocalStorage\Exceptions
+ * @package CodeInc\ObjectStorage\Local\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class LocalObjectException extends LocalStorageException implements StoreObjectExceptionInterface {

@@ -16,19 +16,41 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:03
+// Time:     15:50
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\LocalStorage\Exceptions;
-use CodeInc\ObjectStorage\ObjectStorageException;
+namespace CodeInc\ObjectStorage\Local;
+use CodeInc\ObjectStorage\Local\LocalDirectory;
+use CodeInc\ObjectStorage\Utils\DirectoryIterator;
 
 
 /**
- * Class LocalStorageException
+ * Class LocalDirectoryIterator
  *
- * @package CodeInc\ObjectStorage\LocalStorage\Exceptions
+ * @package CodeInc\ObjectStorage\Local
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalStorageException extends ObjectStorageException {
+class LocalDirectoryIterator extends DirectoryIterator {
+	/**
+	 * @var LocalDirectory
+	 */
+	private $localDirectory;
 
+	/**
+	 * LocalDirectoryIterator constructor.
+	 *
+	 * @param LocalDirectory $localDirectory
+	 */
+	public function __construct(LocalDirectory $localDirectory) {
+		$this->localDirectory = $localDirectory;
+		parent::__construct($localDirectory->getDirectoryPath());
+		$this->ignoreHiddenFiles();
+	}
+
+	/**
+	 * @return LocalFile
+	 */
+	public function current():LocalFile {
+		return new LocalFile(parent::current()->getBasename(), $this->localDirectory);
+	}
 }
