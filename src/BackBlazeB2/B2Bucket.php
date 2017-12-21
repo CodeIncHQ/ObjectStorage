@@ -143,14 +143,16 @@ class B2Bucket implements StoreContainerInterface {
 
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
-	 * @param int|null $retryOnFailure
+	 * @param string $objectName
+	 * @param int $retryOnFailure
 	 * @throws B2BucketException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, int $retryOnFailure = self::RETRY_ON_FAILURE) {
+	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+		int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			$this->b2Client->upload([
 				'BucketName' => $this->bucketName,
-				'FileName' => $cloudStorageObject->getName(),
+				'FileName' => $objectName ?? $cloudStorageObject->getName(),
 				'Body' => $cloudStorageObject->getContent()
 			]);
 		}

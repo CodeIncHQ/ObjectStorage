@@ -32,10 +32,11 @@ use CodeInc\Service\Service\ServiceInterface;
 interface StoreContainerInterface extends ServiceInterface {
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param string $objectName
 	 * @return void
 	 * @throws
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject);
+	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null);
 
 	/**
 	 * @param string $objectName

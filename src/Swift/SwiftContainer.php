@@ -239,15 +239,17 @@ class SwiftContainer implements StoreContainerInterface {
 
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param string $objectName
 	 * @param int $retryOnFailure
 	 * @param array|null $httpHeaders
 	 * @throws SwiftContainerException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, array $httpHeaders = null,
-		int $retryOnFailure = self::RETRY_ON_FAILURE) {
+	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+		array $httpHeaders = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
+
 			$this->containerClient->uploadObject(
-				$cloudStorageObject->getName(),
+				$objectName ?? $cloudStorageObject->getName(),
 				$cloudStorageObject->getContent(),
 				$this->buildObjectHeaders($cloudStorageObject, $httpHeaders)
 			);

@@ -41,11 +41,12 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param string|null $objectName
 	 * @throws AbstractDirectoryException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject) {
+	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null) {
 		try {
-			if (($f = fopen($this->getObjectPath($cloudStorageObject->getName()), "w")) === false) {
+			if (($f = fopen($this->getObjectPath($objectName ?? $cloudStorageObject->getName()), "w")) === false) {
 				throw new AbstractDirectoryException($this, "Unable to open the object for writing");
 			}
 			$content = $cloudStorageObject->getContent();
