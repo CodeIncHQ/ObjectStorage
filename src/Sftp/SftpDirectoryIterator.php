@@ -21,7 +21,6 @@
 //
 namespace CodeInc\ObjectStorage\Sftp;
 use CodeInc\ObjectStorage\Utils\DirectoryIterator;
-use CodeInc\ObjectStorage\Sftp\SftpDirectory;
 
 
 /**

@@ -25,7 +25,7 @@ namespace CodeInc\ObjectStorage\Utils;
 /**
  * Class DirectoryIterator
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Utils
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class DirectoryIterator extends \DirectoryIterator {

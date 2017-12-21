@@ -20,8 +20,7 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Sftp;
-use CodeInc\ObjectStorage\Utils\AbstractFile;
-use CodeInc\ObjectStorage\Sftp\SftpDirectory;
+use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
 
 
 /**
