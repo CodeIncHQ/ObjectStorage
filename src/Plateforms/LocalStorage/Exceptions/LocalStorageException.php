@@ -15,45 +15,20 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     20/12/2017
-// Time:     19:27
+// Date:     21/12/2017
+// Time:     13:03
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Plateforms\LocalStorage\Exceptions;
 use CodeInc\ObjectStorage\ObjectStorageException;
-use Throwable;
 
 
 /**
- * Class StoreObjectException
+ * Class LocalStorageException
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Plateforms\LocalStorage\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class StoreObjectException extends ObjectStorageException {
-	/**
-	 * @var StoreObjectInterface
-	 */
-	private $storeObject;
+class LocalStorageException extends ObjectStorageException {
 
-	/**
-	 * StoreObjectException constructor.
-	 *
-	 * @param StoreObjectInterface $storeObject
-	 * @param string|null $message
-	 * @param int|null $code
-	 * @param Throwable|null $previous
-	 */
-	public function __construct(StoreObjectInterface $storeObject, string $message, int $code = null, Throwable $previous = null) {
-		$this->storeObject = $storeObject;
-		parent::__construct($message, $code, $previous);
-	}
-
-	/**
-	 * @return StoreObjectInterface
-	 */
-	public function getStoreObject():StoreObjectInterface {
-		return $this->storeObject;
-	}
 }

@@ -20,8 +20,9 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerInterface;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+use CodeInc\ObjectStorage\Plateforms\Abstracts\AbstractDirectory;
+use CodeInc\ObjectStorage\Plateforms\LocalStorage\Exceptions\LocalDirectoryException;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
 
 
 /**
@@ -30,115 +31,71 @@ use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
  * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalDirectory implements StoreContainerInterface {
+class LocalDirectory extends AbstractDirectory {
 	/**
+	 * Directory's path.
+	 *
 	 * @var string
 	 */
-	private $dirPath;
+	private $directoryPath;
 
 	/**
 	 * LocalDirectory constructor.
 	 *
-	 * @param string $dirPath
+	 * @param string $directoryPath
 	 * @throws LocalDirectoryException
 	 */
-	public function __construct(string $dirPath) {
-		$this->setDirPath($dirPath);
-	}
-
-	/**
-	 * @param string $dirPath
-	 * @throws LocalDirectoryException
-	 */
-	protected function setDirPath(string $dirPath) {
-		if (empty($dirPath)) {
-			throw new LocalDirectoryException($this,
-				"The diretory path can not be empty");
-		}
-		if (($this->dirPath = realpath($dirPath)) === false) {
-			throw new LocalDirectoryException($this,
-				"The directory path \"$dirPath\" is not valid");
-		}
-	}
-
-	/**
-	 * @param bool|null $ignoreHiddenFiles
-	 * @return array
-	 * @throws LocalDirectoryException
-	 */
-	public function listObjects(bool $ignoreHiddenFiles = null):array {
+	public function __construct(string $directoryPath) {
 		try {
-			$objects = [];
-			foreach (new \DirectoryIterator($this->dirPath) as $item) {
-				if (!$item->isDir() && $item->isFile() && (!$ignoreHiddenFiles || !$item->isDot())) {
-					$objects[] = new LocalObject($item->getPathname());
-				}
+			// checks and sets the directory path
+			if (empty($directoryPath)) {
+				throw new LocalDirectoryException($this,
+					"The diretory path can not be empty");
 			}
-			return $objects;
+			if (($this->directoryPath = realpath($directoryPath)) === false) {
+				throw new LocalDirectoryException($this,
+					"The directory path \"$directoryPath\" is not valid");
+			}
 		}
 		catch (\Throwable $exception) {
 			throw new LocalDirectoryException($this,
-				"Error while listing the objects of the loal directory \"$this->dirPath\"",
-				$exception);
+				"Error while opening the local directory container \"$directoryPath\"", $exception);
 		}
 	}
 
 	/**
-	 * @param string $objectName
-	 * @return bool
-	 * @throws LocalDirectoryException
+	 * Returns the directory iterator.
+	 *
+	 * @return LocalDirectoryIterator
 	 */
-	public function hasObject(string $objectName):bool {
-		try {
-			return file_exists($this->getObjectPath($objectName));
-		}
-		catch (\Throwable $exception) {
-			throw new LocalDirectoryException($this,
-				"Error while checking if the object \"$objectName\" exists in the local directory \"$this->dirPath\"",
-				$exception);
-		}
+	public function getIterator():LocalDirectoryIterator {
+		return new LocalDirectoryIterator($this);
+	}
+
+	/**
+	 * Returns an object's path.
+	 *
+	 * @param string $objectName
+	 * @return string
+	 */
+	public function getObjectPath(string $objectName):string {
+		return $this->directoryPath.DIRECTORY_SEPARATOR.$objectName;
 	}
 
 	/**
 	 * @param string $objectName
 	 * @return StoreObjectInterface
-	 * @throws LocalDirectoryException
 	 */
 	public function getObject(string $objectName):StoreObjectInterface {
-		try {
-			return new LocalObject($this->getObjectPath($objectName));
-		}
-		catch (\Exception $exception) {
-			throw new LocalDirectoryException($this,
-				"Error while getting the object \"$objectName\" from the local directory \"$this->dirPath\"",
-				$exception);
-		}
+		return new LocalFile($objectName, $this);
 	}
 
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
-	 * @throws LocalDirectoryException
-	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject) {
-		try {
-			file_put_contents(
-				$this->getObjectPath($cloudStorageObject->getName()),
-				$cloudStorageObject->getContent()->__toString()
-			);
-		}
-		catch (\Throwable $exception) {
-			throw new LocalDirectoryException($this,
-				"Unable to write the file \"{$cloudStorageObject->getName()}\" "
-				."in the local directory \"$this->dirPath\"",
-				$exception);
-		}
-	}
-
-	/**
-	 * @param string $objectName
+	 * Returns the directory's path.
+	 *
 	 * @return string
 	 */
-	private function getObjectPath(string $objectName):string {
-		return $this->dirPath.DIRECTORY_SEPARATOR.$objectName;
+	public function getDirectoryPath():string {
+		return $this->directoryPath;
 	}
 }

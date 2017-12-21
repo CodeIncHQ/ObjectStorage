@@ -20,8 +20,10 @@
 // Project:  sophos-backup
 //
 namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerInterface;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftContainerException;
+use CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftContainerFactoryException;
 use OpenCloud\ObjectStore\Resource\Container;
 use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\OpenStack;
@@ -70,6 +72,38 @@ class SwiftContainer implements StoreContainerInterface {
 		$this->setContainerRegion($containerRegion);
 		$this->setOpenStackClient($openStackClient);
 		$this->loadContainerClient();
+	}
+
+	/**
+	 * SwiftContainer factory.
+	 *
+	 * @param string $containerName
+	 * @param string $containerRegion
+	 * @param string $openStackAuthUrl
+	 * @param string $openStackUsername
+	 * @param string $openStackPassword
+	 * @param string $openStackTenantId
+	 * @param string $openStackTenantName
+	 * @param array|null $openStackClientOptions
+	 * @return SwiftContainer
+	 * @throws SwiftContainerFactoryException
+	 */
+	public static function factory(string $containerName, string $containerRegion, string $openStackAuthUrl,
+		string $openStackUsername, string $openStackPassword, string $openStackTenantId,
+		string $openStackTenantName, array $openStackClientOptions = null):SwiftContainer {
+		try {
+			return new SwiftContainer($containerName, $containerRegion,
+				new OpenStack($openStackAuthUrl, [
+					'username' => $openStackUsername,
+					'password' => $openStackPassword,
+					'tenantId' => $openStackTenantId,
+					'tenantName' => $openStackTenantName
+				], $openStackClientOptions ?? [])
+			);
+		}
+		catch (\Throwable $exception) {
+			throw new SwiftContainerFactoryException($containerName, $exception);
+		}
 	}
 
 	/**
@@ -258,9 +292,8 @@ class SwiftContainer implements StoreContainerInterface {
 				return $this->getObject($objectName, --$retryOnFailure);
 			}
 			else {
-				throw new SwiftContainerException($this,
-					"Error while uploading the object \"$objectName\" to the Swift Container bucket \"$this->containerName\"",
-					$exception);
+				throw new SwiftContainerException($this, "Error while uploading the object \"$objectName\" "
+					."to the Swift Container bucket \"$this->containerName\"", $exception);
 			}
 		}
 	}

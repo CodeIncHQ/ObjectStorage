@@ -19,16 +19,41 @@
 // Time:     22:23
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectException;
+namespace CodeInc\ObjectStorage\Plateforms\LocalStorage\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Plateforms\LocalStorage\LocalDirectory;
+use Throwable;
 
 
 /**
- * Class LocalObjectException
+ * Class LocalDirectoryException
  *
  * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalObjectException extends StoreObjectException {
+class LocalDirectoryException extends LocalStorageException implements StoreContainerExceptionInterface {
+	/**
+	 * @var LocalDirectory
+	 */
+	private $container;
 
+	/**
+	 * LocalDirectoryException constructor.
+	 *
+	 * @param LocalDirectory $directory
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(LocalDirectory $directory, string $message, Throwable $previous = null) {
+		$this->container = $directory;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return LocalDirectory
+	 */
+	public function getContainer():StoreContainerInterface {
+		return $this->container;
+	}
 }

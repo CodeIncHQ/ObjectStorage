@@ -15,105 +15,90 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:50
+// Date:     21/12/2017
+// Time:     15:09
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Plateforms\Abstracts;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
 use Guzzle\Http\EntityBody;
 
 
 /**
- * Class LocalObject
+ * Class AbstractFile
  *
- * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
+ * @package CodeInc\ObjectStorage\Plateforms\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalObject implements StoreObjectInterface {
+abstract class AbstractFile implements StoreObjectInterface {
 	/**
 	 * @var string
 	 */
-	private $filePath;
+	private $name;
 
 	/**
 	 * @var EntityBody
+	 * @see AbstractFile::getContent()
 	 */
 	private $content;
 
 	/**
-	 * LocalObject constructor.
+	 * AbstractFile constructor.
 	 *
-	 * @param string $filePath
-	 * @throws LocalObjectException
+	 * @param string $name
 	 */
-	public function __construct(string $filePath) {
-		$this->setFilePath($filePath);
-	}
-
-	/**
-	 * @param string $filePath
-	 * @throws LocalObjectException
-	 */
-	protected function setFilePath(string $filePath) {
-		if (empty($filePath)) {
-			throw new LocalObjectException($this,
-				"The file path can not be empty");
-		}
-		if (!file_exists($filePath)) {
-			throw new LocalObjectException($this,
-				"The file \"$filePath\" does not exist");
-		}
-		if (!is_file($filePath)) {
-			throw new LocalObjectException($this,
-				"The path \"$filePath\" is not a file");
-		}
-		$this->filePath = $filePath;
+	public function __construct(string $name) {
+		$this->name = $name;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getName():string {
-		return basename($this->filePath);
+		return $this->name;
 	}
 
 	/**
+	 * Returns the file path.
+	 *
+	 * @return string
+	 */
+	abstract public function getPath():string;
+
+	/**
 	 * @return int
-	 * @throws LocalObjectException
+	 * @throws AbstractFileException
 	 */
 	public function getSize():int {
 		try {
-			return filesize($this->filePath);
+			return filesize($this->getPath());
 		}
 		catch (\Throwable $exception) {
-			throw new LocalObjectException($this,
-				"Error while reading the size of the local file \"$this->filePath\"",
+			throw new AbstractFileException($this,
+				"Error while reading the size of the local file \"{$this->getPath()}\"",
 				$exception);
 		}
 	}
 
 	/**
 	 * @return EntityBody
-	 * @throws LocalObjectException
+	 * @throws AbstractFileException
 	 */
 	public function getContent():EntityBody {
 		if (!$this->content) {
 			try {
-				if (($fp = fopen($this->filePath, 'r'))) {
-					throw new LocalObjectException($this,
-						"Unable to open the local file \"$this->filePath\" in reading mode");
+				if (($f = fopen($this->getPath(), 'r'))) {
+					throw new AbstractFileException($this,
+						"Unable to open the local file \"{$this->getPath()}\" in reading mode");
 				}
-				$this->content = EntityBody::factory($fp);
+				$this->content = new EntityBody($f, $this->getSize());
 			}
 			catch (\Throwable $exception) {
-				throw new LocalObjectException($this,
-					"Unable to load the content of the local file \"$this->filePath\"",
+				throw new AbstractFileException($this,
+					"Unable to load the content of the local file \"{$this->getPath()}\"",
 					$exception);
 			}
 		}
 		return $this->content;
 	}
-
-
 }

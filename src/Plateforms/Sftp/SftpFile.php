@@ -15,22 +15,42 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:56
+// Date:     21/12/2017
+// Time:     13:20
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms;
+namespace CodeInc\ObjectStorage\Plateforms\Sftp;
+use CodeInc\ObjectStorage\Plateforms\Abstracts\AbstractFile;
 
 
 /**
- * Interface StoreObjectMetadataInterface
+ * Class SftpFile
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Plateforms\Sftp
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectMetadataInterface {
+class SftpFile extends AbstractFile {
 	/**
-	 * @return array
+	 * @var SftpDirectory
 	 */
-	public function getMetadata():array;
+	private $sftpDirectory;
+
+
+	/**
+	 * SftpFile constructor.
+	 *
+	 * @param string $name
+	 * @param SftpDirectory $sftpDirectory
+	 */
+	public function __construct(string $name, SftpDirectory $sftpDirectory) {
+		parent::__construct($name);
+		$this->sftpDirectory = $sftpDirectory;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPath():string {
+		return $this->sftpDirectory->getObjectPath($this->getName());
+	}
 }

@@ -15,44 +15,41 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     20/12/2017
-// Time:     19:28
+// Date:     19/12/2017
+// Time:     19:50
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms;
-use CodeInc\ObjectStorage\ObjectStorageException;
-use Throwable;
+namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
+use CodeInc\ObjectStorage\Plateforms\Abstracts\AbstractFile;
 
 
 /**
- * Class StoreContainerException
+ * Class LocalObject
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class StoreContainerException extends ObjectStorageException {
+class LocalFile extends AbstractFile {
 	/**
-	 * @var StoreContainerInterface
+	 * @var LocalDirectory
 	 */
-	private $storeContainer;
+	private $localDirectory;
 
 	/**
-	 * StoreContainerException constructor.
+	 * LocalFile constructor.
 	 *
-	 * @param StoreContainerInterface $storeContainer
-	 * @param string $message
-	 * @param int|null $code
-	 * @param Throwable|null $previous
+	 * @param string $name
+	 * @param LocalDirectory $localDirectory
 	 */
-	public function __construct(StoreContainerInterface $storeContainer, string $message, int $code = null, Throwable $previous = null) {
-		$this->storeContainer = $storeContainer;
-		parent::__construct($message, $code, $previous);
+	public function __construct(string $name, LocalDirectory $localDirectory) {
+		parent::__construct($name);
+		$this->localDirectory = $localDirectory;
 	}
 
 	/**
-	 * @return StoreContainerInterface
+	 * @return string
 	 */
-	public function getStoreContainer():StoreContainerInterface {
-		return $this->storeContainer;
+	public function getPath():string {
+		return $this->localDirectory->getObjectPath($this->getName());
 	}
 }

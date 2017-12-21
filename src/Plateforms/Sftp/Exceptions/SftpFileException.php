@@ -15,20 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:23
+// Date:     21/12/2017
+// Time:     13:22
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerException;
+namespace CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Plateforms\Sftp\SftpFile;
+use Throwable;
 
 
 /**
- * Class LocalDirectoryException
+ * Class SftpFileException
  *
- * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
+ * @package CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalDirectoryException extends StoreContainerException {
+class SftpFileException extends SftpException implements StoreObjectExceptionInterface {
+	/**
+	 * @var SftpFile
+	 */
+	private $file;
 
+	/**
+	 * SftpObjectException constructor.
+	 *
+	 * @param SftpFile $file
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(SftpFile $file, string $message, Throwable $previous = null) {
+		$this->file = $file;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return SftpFile
+	 */
+	public function getObject():StoreObjectInterface {
+		return $this->file;
+	}
 }

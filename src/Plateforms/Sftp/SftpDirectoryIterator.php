@@ -15,58 +15,50 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     23:50
+// Date:     21/12/2017
+// Time:     15:43
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Plateforms\Sftp;
+use CodeInc\ObjectStorage\Plateforms\DirectoryIterator;
 
 
 /**
- * Class SwiftMetadataObject
+ * Class SftpDirectoryIterator
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Sftp
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
+class SftpDirectoryIterator extends DirectoryIterator {
 	/**
-	 * @var SwiftObject
+	 * @var SftpDirectory
 	 */
-	private $swiftObject;
+	private $sftpDirectory;
 
 	/**
-	 * SwiftMetadataObject constructor.
+	 * SftpDirectoryIterator constructor.
 	 *
-	 * @param SwiftObject $swiftObject
+	 * @param SftpDirectory $sftpDirectory
 	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
+	public function __construct(SftpDirectory $sftpDirectory) {
+		$this->sftpDirectory = $sftpDirectory;
+		parent::__construct($sftpDirectory->getSftpPath());
+		$this->ignoreHiddenFiles();
 	}
 
 	/**
-	 * @return string
+	 * Rewinding is not available on SFTP directories.
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
+	public function rewind() {
+		if (!$this->isCurrentItemValid()) {
+			$this->next();
+		}
 	}
 
 	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
+	 * @return SftpFile
 	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
-
-	/**
-	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
+	public function current():SftpFile {
+		return new SftpFile(parent::current()->getBasename(), $this->sftpDirectory);
 	}
 }

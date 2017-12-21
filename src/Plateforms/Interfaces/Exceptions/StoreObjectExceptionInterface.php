@@ -15,20 +15,23 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:11
+// Date:     21/12/2017
+// Time:     13:05
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerException;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
 
 
 /**
- * Class B2BucketException
+ * Interface StoreObjectExceptionInterface
  *
- * @package CodeInc\ObjectStorage\Plateforms\BackBlazeB2
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class B2BucketException extends StoreContainerException {
-
+interface StoreObjectExceptionInterface {
+	/**
+	 * @return StoreObjectInterface
+	 */
+	public function getObject():StoreObjectInterface;
 }

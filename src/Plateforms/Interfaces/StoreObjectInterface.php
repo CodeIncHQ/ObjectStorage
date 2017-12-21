@@ -16,57 +16,32 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     23:50
+// Time:     18:18
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces;
 use Guzzle\Http\EntityBody;
 
 
 /**
- * Class SwiftMetadataObject
+ * Interface StoreObjectInterface
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
-	/**
-	 * @var SwiftObject
-	 */
-	private $swiftObject;
-
-	/**
-	 * SwiftMetadataObject constructor.
-	 *
-	 * @param SwiftObject $swiftObject
-	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
-	}
-
+interface StoreObjectInterface {
 	/**
 	 * @return string
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
-	}
-
-	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
+	public function getName():string;
 
 	/**
 	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
 	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
-	}
+	public function getContent():EntityBody;
+
+	/**
+	 * @return int
+	 */
+	public function getSize():int;
 }

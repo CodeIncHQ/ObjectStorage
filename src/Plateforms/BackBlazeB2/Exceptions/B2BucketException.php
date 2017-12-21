@@ -16,57 +16,44 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     23:50
+// Time:     22:11
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\BackBlazeB2\B2Bucket;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
+use Throwable;
 
 
 /**
- * Class SwiftMetadataObject
+ * Class B2BucketException
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
+class B2BucketException extends B2Exception implements StoreContainerExceptionInterface {
 	/**
-	 * @var SwiftObject
+	 * @var B2Bucket
 	 */
-	private $swiftObject;
+	private $container;
 
 	/**
-	 * SwiftMetadataObject constructor.
+	 * BackBlazeB2BucketException constructor.
 	 *
-	 * @param SwiftObject $swiftObject
+	 * @param B2Bucket $bucket
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
+	public function __construct(B2Bucket $bucket, string $message, Throwable $previous = null) {
+		$this->container = $bucket;
+		parent::__construct($message, $previous);
 	}
 
 	/**
-	 * @return string
+	 * @return B2Bucket
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
-	}
-
-	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
-
-	/**
-	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
+	public function getContainer():StoreContainerInterface {
+		return $this->container;
 	}
 }

@@ -15,58 +15,41 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     23:50
+// Date:     21/12/2017
+// Time:     15:50
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Plateforms\LocalStorage;
+use CodeInc\ObjectStorage\Plateforms\DirectoryIterator;
 
 
 /**
- * Class SwiftMetadataObject
+ * Class LocalDirectoryIterator
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\LocalStorage
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
+class LocalDirectoryIterator extends DirectoryIterator {
 	/**
-	 * @var SwiftObject
+	 * @var LocalDirectory
 	 */
-	private $swiftObject;
+	private $localDirectory;
 
 	/**
-	 * SwiftMetadataObject constructor.
+	 * LocalDirectoryIterator constructor.
 	 *
-	 * @param SwiftObject $swiftObject
+	 * @param LocalDirectory $localDirectory
 	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
+	public function __construct(LocalDirectory $localDirectory) {
+		$this->localDirectory = $localDirectory;
+		parent::__construct($localDirectory->getDirectoryPath());
+		$this->ignoreHiddenFiles();
 	}
 
 	/**
-	 * @return string
+	 * @return LocalFile
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
-	}
-
-	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
-
-	/**
-	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
+	public function current():LocalFile {
+		return new LocalFile(parent::current()->getBasename(), $this->localDirectory);
 	}
 }

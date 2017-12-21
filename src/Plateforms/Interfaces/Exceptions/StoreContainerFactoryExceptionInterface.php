@@ -15,20 +15,22 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     20/12/2017
-// Time:     19:37
+// Date:     21/12/2017
+// Time:     13:10
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Services;
-use CodeInc\ObjectStorage\ObjectStorageException;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions;
 
 
 /**
- * Class ServiceException
+ * Interface StoreContainerFactoryExceptionInterface
  *
- * @package CodeInc\ObjectStorage\Services
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ServiceException extends ObjectStorageException {
-
+interface StoreContainerFactoryExceptionInterface {
+	/**
+	 * @return string
+	 */
+	public function getContainerName():string;
 }

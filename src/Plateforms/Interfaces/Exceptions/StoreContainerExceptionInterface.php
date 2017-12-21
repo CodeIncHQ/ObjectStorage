@@ -15,28 +15,23 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:35
+// Date:     21/12/2017
+// Time:     13:05
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage;
-use Throwable;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
 
 
 /**
- * Class ObjectStorageException
+ * Interface StoreContainerExceptionInterface
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ObjectStorageException extends \Exception {
+interface StoreContainerExceptionInterface {
 	/**
-	 * ObjectStorageException constructor.
-	 *
-	 * @param string $message
-	 * @param Throwable|null $previous
+	 * @return StoreContainerInterface
 	 */
-	public function __construct(string $message, Throwable $previous = null) {
-		parent::__construct($message, 0, $previous);
-	}
+	public function getContainer():StoreContainerInterface;
 }

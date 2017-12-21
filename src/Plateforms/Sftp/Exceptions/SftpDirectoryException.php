@@ -15,20 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:12
+// Date:     21/12/2017
+// Time:     13:14
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectException;
+namespace CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Plateforms\Sftp\SftpDirectory;
+use Throwable;
 
 
 /**
- * Class B2ObjectException
+ * Class SftpDirectoryException
  *
- * @package CodeInc\ObjectStorage\Plateforms\BackBlazeB2
+ * @package CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class B2ObjectException extends StoreObjectException {
+class SftpDirectoryException extends SftpException implements StoreContainerExceptionInterface {
+	/**
+	 * @var SftpDirectory
+	 */
+	private $directory;
 
+	/**
+	 * SftpContainerException constructor.
+	 *
+	 * @param SftpDirectory $directory
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(SftpDirectory $directory, string $message, Throwable $previous = null) {
+		$this->directory = $directory;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return SftpDirectory
+	 */
+	public function getContainer():StoreContainerInterface {
+		return $this->directory;
+	}
 }

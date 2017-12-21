@@ -15,45 +15,42 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     18:47
+// Date:     21/12/2017
+// Time:     12:53
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms;
-use CodeInc\Service\Service\ServiceInterface;
+namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerFactoryExceptionInterface;
+use Throwable;
 
 
 /**
- * Interface StoreContainerInterface
+ * Class B2BucketFactoryException
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerInterface extends ServiceInterface {
+class B2BucketFactoryException extends B2Exception implements StoreContainerFactoryExceptionInterface {
 	/**
-	 * @return StoreObjectInterface[]
-	 * @throws
+	 * @var string
 	 */
-	public function listObjects():array;
+	private $containerName;
 
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
-	 * @return void
-	 * @throws
+	 * BackBlazeB2BucketFactoryException constructor.
+	 *
+	 * @param string $bucketName
+	 * @param Throwable|null $previous
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject);
+	public function __construct(string $bucketName, Throwable $previous = null) {
+		$this->containerName = $bucketName;
+		parent::__construct("Factory error for the B2 bucket \"$bucketName\"", $previous);
+	}
 
 	/**
-	 * @param string $objectName
-	 * @return StoreObjectInterface
-	 * @throws
+	 * @return string
 	 */
-	public function getObject(string $objectName):StoreObjectInterface;
-
-	/**
-	 * @param string $objectName
-	 * @return bool
-	 * @throws
-	 */
-	public function hasObject(string $objectName):bool;
+	public function getContainerName():string {
+		return $this->containerName;
+	}
 }

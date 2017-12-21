@@ -20,10 +20,12 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerInterface;
+use CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions\B2BucketException;
+use CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions\B2BucketFactoryException;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
 use ChrisWhite\B2\Client;
 use ChrisWhite\B2\File;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
 
 
 /**
@@ -56,6 +58,27 @@ class B2Bucket implements StoreContainerInterface {
 	public function __construct(string $bucketName, Client $b2Client) {
 		$this->setBucketName($bucketName);
 		$this->setB2Client($b2Client);
+	}
+
+	/**
+	 * B2Bucket factory.
+	 *
+	 * @param string $bucketName
+	 * @param string $b2AccountId
+	 * @param string $b2ApplicationKey
+	 * @param array $b2ClientOptions
+	 * @return B2Bucket
+	 * @throws B2BucketFactoryException
+	 */
+	public static function factory(string $bucketName, string $b2AccountId, string $b2ApplicationKey,
+		array $b2ClientOptions = []):B2Bucket {
+		try {
+			return new B2Bucket($bucketName,
+				new Client($b2AccountId, $b2ApplicationKey, $b2ClientOptions ?? []));
+		}
+		catch (\Throwable $exception) {
+			throw new B2BucketFactoryException($bucketName, $exception);
+		}
 	}
 
 	/**

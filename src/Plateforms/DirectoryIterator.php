@@ -15,20 +15,59 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     20/12/2017
-// Time:     19:27
+// Date:     21/12/2017
+// Time:     15:38
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\InlineDataObject;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectException;
+namespace CodeInc\ObjectStorage\Plateforms;
 
 
 /**
- * Class InlineDataObjectException
+ * Class DirectoryIterator
  *
- * @package CodeInc\ObjectStorage\Plateforms\InlineDataObject
+ * @package CodeInc\ObjectStorage\Plateforms
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class InlineDataObjectException extends StoreObjectException {
+class DirectoryIterator extends \DirectoryIterator {
+	/**
+	 * @var bool
+	 */
+	protected $ignoreHiddenFiles = false;
 
+	/**
+	 * Ignores the hidden files (starting with a dot) in the directory.
+	 */
+	public function ignoreHiddenFiles() {
+		$this->ignoreHiddenFiles = true;
+	}
+
+	/**
+	 * Rewrinds the iterator.
+	 */
+	public function rewind() {
+		parent::rewind();
+		if (!$this->isCurrentItemValid()) {
+			$this->next();
+		}
+	}
+
+	/**
+	 * Moves to the next file.
+	 */
+	public function next() {
+		do {
+			parent::next();
+		}
+		while ($this->valid() && !$this->isCurrentItemValid());
+	}
+
+	/**
+	 * Valides if an item needs to be ignored.
+	 *
+	 * @return bool
+	 */
+	protected function isCurrentItemValid():bool {
+		$item = parent::current();
+		return ($item->isFile() && (!$this->ignoreHiddenFiles || substr($item->getBasename(), 0, 1) != "."));
+	}
 }

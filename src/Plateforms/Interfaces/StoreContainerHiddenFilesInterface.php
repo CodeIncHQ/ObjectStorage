@@ -15,28 +15,22 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:35
+// Date:     21/12/2017
+// Time:     13:44
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage;
-use Throwable;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces;
 
 
 /**
- * Class ObjectStorageException
+ * Interface StoreContainerHiddenFilesInterface
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ObjectStorageException extends \Exception {
+interface StoreContainerHiddenFilesInterface {
 	/**
-	 * ObjectStorageException constructor.
-	 *
-	 * @param string $message
-	 * @param Throwable|null $previous
+	 * @return void
 	 */
-	public function __construct(string $message, Throwable $previous = null) {
-		parent::__construct($message, 0, $previous);
-	}
+	public function ignoreHiddenFiles();
 }

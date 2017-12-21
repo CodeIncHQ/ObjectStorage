@@ -15,20 +15,42 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:15
+// Date:     21/12/2017
+// Time:     13:16
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectException;
+namespace CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerFactoryExceptionInterface;
+use Throwable;
 
 
 /**
- * Class SwiftObjectException
+ * Class SftpDirectoryFactoryException
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Sftp\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftObjectException extends StoreObjectException {
+class SftpDirectoryFactoryException extends SftpException implements StoreContainerFactoryExceptionInterface {
+	/**
+	 * @var string
+	 */
+	private $directoryName;
 
+	/**
+	 * SftpContainerFactoryException constructor.
+	 *
+	 * @param string $containerName
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(string $containerName, Throwable $previous = null) {
+		$this->directoryName = $containerName;
+		parent::__construct("Factory error for the SFTP container \"$containerName\"", $previous);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getContainerName():string {
+		return $this->directoryName;
+	}
 }

@@ -15,43 +15,20 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:57
+// Date:     21/12/2017
+// Time:     12:47
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Services\Sync;
-use CodeInc\ObjectStorage\Services\ServiceException;
-use Throwable;
+namespace CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions;
+use CodeInc\ObjectStorage\ObjectStorageException;
 
 
 /**
- * Class SyncServiceException
+ * Class B2Exception
  *
- * @package CodeInc\ObjectStorage\Services\Sync
+ * @package CodeInc\ObjectStorage\Plateforms\BackBlazeB2\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SyncServiceException extends ServiceException {
-	/**
-	 * @var SyncService
-	 */
-	private $syncService;
+class B2Exception extends ObjectStorageException {
 
-	/**
-	 * SyncServiceException constructor.
-	 *
-	 * @param SyncService $syncService
-	 * @param string|null $message
-	 * @param Throwable|null $previous
-	 */
-	public function __construct(SyncService $syncService, string $message = null, Throwable $previous = null) {
-		$this->syncService = $syncService;
-		parent::__construct($message, $previous);
-	}
-
-	/**
-	 * @return SyncService
-	 */
-	public function getSyncService():SyncService {
-		return $this->syncService;
-	}
 }

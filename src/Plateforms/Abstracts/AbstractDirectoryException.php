@@ -15,20 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:15
+// Date:     21/12/2017
+// Time:     15:17
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\StoreContainerException;
+namespace CodeInc\ObjectStorage\Plateforms\Abstracts;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreContainerInterface;
+use Throwable;
 
 
 /**
- * Class SwiftContainerException
+ * Class AbstractDirectoryException
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftContainerException extends StoreContainerException {
+class AbstractDirectoryException extends ObjectStorageException implements StoreContainerExceptionInterface {
+	/**
+	 * @var AbstractDirectory
+	 */
+	private $directory;
 
+	/**
+	 * AbstractDirectoryException constructor.
+	 *
+	 * @param AbstractDirectory $directory
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(AbstractDirectory $directory, string $message, Throwable $previous = null) {
+		$this->directory = $directory;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return AbstractDirectory
+	 */
+	public function getContainer():StoreContainerInterface {
+		return $this->directory;
+	}
 }

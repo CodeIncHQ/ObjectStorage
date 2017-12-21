@@ -16,57 +16,38 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     23:50
+// Time:     18:47
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
-use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Plateforms\Interfaces;
+use CodeInc\Service\Service\ServiceInterface;
 
 
 /**
- * Class SwiftMetadataObject
+ * Interface StoreContainerInterface
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
+interface StoreContainerInterface extends ServiceInterface {
 	/**
-	 * @var SwiftObject
+	 * @param StoreObjectInterface $cloudStorageObject
+	 * @return void
+	 * @throws
 	 */
-	private $swiftObject;
+	public function putObject(StoreObjectInterface $cloudStorageObject);
 
 	/**
-	 * SwiftMetadataObject constructor.
-	 *
-	 * @param SwiftObject $swiftObject
+	 * @param string $objectName
+	 * @return StoreObjectInterface
+	 * @throws
 	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
-	}
+	public function getObject(string $objectName):StoreObjectInterface;
 
 	/**
-	 * @return string
+	 * @param string $objectName
+	 * @return bool
+	 * @throws
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
-	}
-
-	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
-
-	/**
-	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
-	}
+	public function hasObject(string $objectName):bool;
 }

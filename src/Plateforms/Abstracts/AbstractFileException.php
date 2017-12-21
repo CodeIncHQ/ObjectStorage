@@ -15,33 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     18:18
+// Date:     21/12/2017
+// Time:     15:10
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Plateforms\Abstracts;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
+use Throwable;
 
 
 /**
- * Interface StoreObjectInterface
+ * Class AbstractFileException
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Plateforms\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectInterface {
+class AbstractFileException extends ObjectStorageException implements StoreObjectExceptionInterface {
 	/**
-	 * @return string
+	 * @var AbstractFile
 	 */
-	public function getName():string;
+	private $file;
 
 	/**
-	 * @return EntityBody
+	 * AbstactDirectoryFileException constructor.
+	 *
+	 * @param AbstractFile $file
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function getContent():EntityBody;
+	public function __construct(AbstractFile $file, string $message, Throwable $previous = null) {
+		$this->file = $file;
+		parent::__construct($message, $previous);
+	}
 
 	/**
-	 * @return int
+	 * @return AbstractFile
 	 */
-	public function getSize():int;
+	public function getObject():StoreObjectInterface {
+		return $this->file;
+	}
 }

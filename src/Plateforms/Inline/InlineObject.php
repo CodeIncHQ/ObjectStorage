@@ -19,19 +19,20 @@
 // Time:     19:33
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\InlineDataObject;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Plateforms\Inline;
+use CodeInc\ObjectStorage\Plateforms\Inline\Exceptions\InlineObjectException;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\ObjectStorageException;
 use Guzzle\Http\EntityBody;
 
 
 /**
- * Class InlineDataObject
+ * Class InlineObject
  *
- * @package CodeInc\ObjectStorage\Plateforms\InlineDataObject
+ * @package CodeInc\ObjectStorage\Plateforms\Inline
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class InlineDataObject implements StoreObjectInterface {
+class InlineObject implements StoreObjectInterface {
 	/**
 	 * @var string
 	 */
@@ -87,19 +88,30 @@ class InlineDataObject implements StoreObjectInterface {
 
 	/**
 	 * @return EntityBody
-	 * @throws InlineDataObjectException
+	 * @throws InlineObjectException
 	 */
 	public function getContent():EntityBody {
 		if (!$this->content) {
-			throw new InlineDataObjectException($this, "No content is set for the object \"{$this->getName()}\"");
+			throw new InlineObjectException($this, "No content is set for the object \"{$this->getName()}\"");
 		}
 		return $this->content;
 	}
 
 	/**
+	 * Sets the content.
+	 *
 	 * @param EntityBody $content
 	 */
 	public function setContent(EntityBody $content) {
 		$this->content = $content;
+	}
+
+	/**
+	 * Sets the content from a string.
+	 *
+	 * @param string $content
+	 */
+	public function setStringContent(string $content) {
+		$this->setContent(EntityBody::fromString($content));
 	}
 }

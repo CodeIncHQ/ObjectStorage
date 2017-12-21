@@ -15,28 +15,20 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:35
+// Date:     21/12/2017
+// Time:     13:09
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage;
-use Throwable;
+namespace CodeInc\ObjectStorage\Plateforms\Inline\Exceptions;
+use CodeInc\ObjectStorage\ObjectStorageException;
 
 
 /**
- * Class ObjectStorageException
+ * Class InlineException
  *
- * @package CodeInc\ObjectStorage
+ * @package CodeInc\ObjectStorage\Plateforms\Inline\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ObjectStorageException extends \Exception {
-	/**
-	 * ObjectStorageException constructor.
-	 *
-	 * @param string $message
-	 * @param Throwable|null $previous
-	 */
-	public function __construct(string $message, Throwable $previous = null) {
-		parent::__construct($message, 0, $previous);
-	}
+class InlineException extends ObjectStorageException {
+
 }

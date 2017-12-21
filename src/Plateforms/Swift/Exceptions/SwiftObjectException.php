@@ -16,57 +16,44 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     23:50
+// Time:     22:15
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Plateforms\Swift;
+namespace CodeInc\ObjectStorage\Plateforms\Swift\Exceptions;
+use CodeInc\ObjectStorage\Plateforms\Interfaces\Exceptions\StoreObjectExceptionInterface;
 use CodeInc\ObjectStorage\Plateforms\Interfaces\StoreObjectInterface;
-use Guzzle\Http\EntityBody;
+use CodeInc\ObjectStorage\Plateforms\Swift\SwiftObject;
+use Throwable;
 
 
 /**
- * Class SwiftMetadataObject
+ * Class SwiftObjectException
  *
- * @package CodeInc\ObjectStorage\Plateforms\Swift
+ * @package CodeInc\ObjectStorage\Plateforms\Swift\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftMetadataObject implements StoreObjectInterface {
+class SwiftObjectException extends SwiftException implements StoreObjectExceptionInterface {
 	/**
 	 * @var SwiftObject
 	 */
-	private $swiftObject;
+	private $object;
 
 	/**
-	 * SwiftMetadataObject constructor.
+	 * SwiftObjectException constructor.
 	 *
-	 * @param SwiftObject $swiftObject
+	 * @param SwiftObject $object
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function __construct(SwiftObject $swiftObject) {
-		$this->swiftObject = $swiftObject;
+	public function __construct(SwiftObject $object, string $message, Throwable $previous = null) {
+		$this->object = $object;
+		parent::__construct($message, $previous);
 	}
 
 	/**
-	 * @return string
+	 * @return SwiftObject
 	 */
-	public function getName():string {
-		return "{$this->swiftObject->getName()}-metadata.json";
-	}
-
-	/**
-	 * @return int
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
-	}
-
-	/**
-	 * @return EntityBody
-	 * @throws \CodeInc\ObjectStorage\Plateforms\Swift\Exceptions\SwiftObjectException
-	 */
-	public function getContent():EntityBody {
-		return EntityBody::fromString(
-			json_encode($this->swiftObject->getMetadata(), JSON_PRETTY_PRINT)
-		);
+	public function getObject():StoreObjectInterface {
+		return $this->object;
 	}
 }
