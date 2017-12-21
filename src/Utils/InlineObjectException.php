@@ -15,22 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     21/12/2017
-// Time:     13:44
+// Date:     20/12/2017
+// Time:     19:27
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces;
+namespace CodeInc\ObjectStorage\Utils;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use Throwable;
 
 
 /**
- * Interface StoreContainerHiddenFilesInterface
+ * Class InlineObjectException
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Utils
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerHiddenFilesInterface {
+class InlineObjectException extends ObjectStorageException implements StoreObjectExceptionInterface {
 	/**
-	 * @return void
+	 * @var InlineObject
 	 */
-	public function ignoreHiddenFiles();
+	private $object;
+
+	/**
+	 * InlineDataObjectException constructor.
+	 *
+	 * @param InlineObject $object
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(InlineObject $object, string $message, Throwable $previous = null) {
+		$this->object = $object;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return InlineObject
+	 */
+	public function getObject():StoreObjectInterface {
+		return $this->object;
+	}
 }

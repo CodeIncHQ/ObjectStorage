@@ -20,7 +20,6 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Local\LocalDirectory;
 use CodeInc\ObjectStorage\Utils\DirectoryIterator;
 
 

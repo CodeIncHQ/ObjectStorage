@@ -20,7 +20,7 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Swift;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 use Guzzle\Http\EntityBody;
 
 

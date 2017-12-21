@@ -19,13 +19,13 @@
 // Time:     13:10
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces\Exceptions;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
  * Interface StoreContainerFactoryExceptionInterface
  *
- * @package CodeInc\ObjectStorage\Interfaces\Exceptions
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 interface StoreContainerFactoryExceptionInterface {

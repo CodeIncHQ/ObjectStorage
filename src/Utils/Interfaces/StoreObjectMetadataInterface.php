@@ -16,38 +16,21 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     18:47
+// Time:     22:56
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces;
-use CodeInc\Service\Service\ServiceInterface;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
- * Interface StoreContainerInterface
+ * Interface StoreObjectMetadataInterface
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerInterface extends ServiceInterface {
+interface StoreObjectMetadataInterface {
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
-	 * @return void
-	 * @throws
+	 * @return array
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject);
-
-	/**
-	 * @param string $objectName
-	 * @return StoreObjectInterface
-	 * @throws
-	 */
-	public function getObject(string $objectName):StoreObjectInterface;
-
-	/**
-	 * @param string $objectName
-	 * @return bool
-	 * @throws
-	 */
-	public function hasObject(string $objectName):bool;
+	public function getMetadata():array;
 }

@@ -19,17 +19,17 @@
 // Time:     15:17
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Utils;
+namespace CodeInc\ObjectStorage\Utils\Abstracts;
 use CodeInc\ObjectStorage\ObjectStorageException;
-use CodeInc\ObjectStorage\Interfaces\Exceptions\StoreContainerExceptionInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use Throwable;
 
 
 /**
  * Class AbstractDirectoryException
  *
- * @package CodeInc\ObjectStorage\Abstracts
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class AbstractDirectoryException extends ObjectStorageException implements StoreContainerExceptionInterface {

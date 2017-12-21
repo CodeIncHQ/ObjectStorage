@@ -20,8 +20,8 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Swift\Exceptions;
-use CodeInc\ObjectStorage\Interfaces\Exceptions\StoreObjectExceptionInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\Swift\SwiftObject;
 use Throwable;
 

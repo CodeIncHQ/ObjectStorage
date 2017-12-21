@@ -21,8 +21,8 @@
 //
 namespace CodeInc\ObjectStorage\BackBlazeB2\Exceptions;
 use CodeInc\ObjectStorage\BackBlazeB2\B2Object;
-use CodeInc\ObjectStorage\Interfaces\Exceptions\StoreObjectExceptionInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 use Throwable;
 
 

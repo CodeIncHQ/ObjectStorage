@@ -19,15 +19,15 @@
 // Time:     13:58
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Utils;
-use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Utils\Abstracts;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 
 
 /**
  * Class AbstractDirectory
  *
- * @package CodeInc\ObjectStorage\Abstracts
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAggregate {

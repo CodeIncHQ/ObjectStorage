@@ -16,22 +16,44 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:05
+// Time:     15:10
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces\Exceptions;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Utils\Abstracts;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use Throwable;
 
 
 /**
- * Interface StoreObjectExceptionInterface
+ * Class AbstractFileException
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectExceptionInterface {
+class AbstractFileException extends ObjectStorageException implements StoreObjectExceptionInterface {
 	/**
-	 * @return StoreObjectInterface
+	 * @var AbstractFile
 	 */
-	public function getObject():StoreObjectInterface;
+	private $file;
+
+	/**
+	 * AbstactDirectoryFileException constructor.
+	 *
+	 * @param AbstractFile $file
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(AbstractFile $file, string $message, Throwable $previous = null) {
+		$this->file = $file;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return AbstractFile
+	 */
+	public function getObject():StoreObjectInterface {
+		return $this->file;
+	}
 }

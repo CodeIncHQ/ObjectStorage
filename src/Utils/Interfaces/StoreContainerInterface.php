@@ -15,20 +15,39 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     21/12/2017
-// Time:     13:09
+// Date:     19/12/2017
+// Time:     18:47
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Inline\Exceptions;
-use CodeInc\ObjectStorage\ObjectStorageException;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
+use CodeInc\Service\Service\ServiceInterface;
 
 
 /**
- * Class InlineException
+ * Interface StoreContainerInterface
  *
- * @package CodeInc\ObjectStorage\Inline\Exceptions
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class InlineException extends ObjectStorageException {
+interface StoreContainerInterface extends ServiceInterface {
+	/**
+	 * @param StoreObjectInterface $cloudStorageObject
+	 * @return void
+	 * @throws
+	 */
+	public function putObject(StoreObjectInterface $cloudStorageObject);
 
+	/**
+	 * @param string $objectName
+	 * @return StoreObjectInterface
+	 * @throws
+	 */
+	public function getObject(string $objectName):StoreObjectInterface;
+
+	/**
+	 * @param string $objectName
+	 * @return bool
+	 * @throws
+	 */
+	public function hasObject(string $objectName):bool;
 }

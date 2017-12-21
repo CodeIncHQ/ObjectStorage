@@ -22,10 +22,10 @@
 namespace CodeInc\ObjectStorage\BackBlazeB2;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2BucketException;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2BucketFactoryException;
-use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use ChrisWhite\B2\Client;
 use ChrisWhite\B2\File;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 
 
 /**

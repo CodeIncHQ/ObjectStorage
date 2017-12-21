@@ -19,14 +19,14 @@
 // Time:     18:18
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 use Guzzle\Http\EntityBody;
 
 
 /**
  * Interface StoreObjectInterface
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 interface StoreObjectInterface {

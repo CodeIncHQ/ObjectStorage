@@ -16,22 +16,21 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:05
+// Time:     13:44
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Interfaces\Exceptions;
-use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
- * Interface StoreContainerExceptionInterface
+ * Interface StoreContainerHiddenFilesInterface
  *
- * @package CodeInc\ObjectStorage\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerExceptionInterface {
+interface StoreContainerHiddenFilesInterface {
 	/**
-	 * @return StoreContainerInterface
+	 * @return void
 	 */
-	public function getContainer():StoreContainerInterface;
+	public function ignoreHiddenFiles();
 }

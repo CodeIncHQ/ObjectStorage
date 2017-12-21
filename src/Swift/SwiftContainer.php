@@ -20,8 +20,8 @@
 // Project:  sophos-backup
 //
 namespace CodeInc\ObjectStorage\Swift;
-use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerException;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerFactoryException;
 use OpenCloud\ObjectStore\Resource\Container;

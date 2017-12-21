@@ -20,9 +20,9 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\AbstractDirectory;
+use CodeInc\ObjectStorage\Utils\Abstracts\AbstractDirectory;
 use CodeInc\ObjectStorage\Local\Exceptions\LocalDirectoryException;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 
 
 /**
@@ -61,6 +61,14 @@ class LocalDirectory extends AbstractDirectory {
 			throw new LocalDirectoryException($this,
 				"Error while opening the local directory container \"$directoryPath\"", $exception);
 		}
+	}
+
+	/**
+	 * @param string $directoryPath
+	 * @return LocalDirectory
+	 */
+	public static function factory(string $directoryPath):LocalDirectory {
+		return new LocalDirectory($directoryPath);
 	}
 
 	/**

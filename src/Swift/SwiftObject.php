@@ -20,8 +20,8 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Swift;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
-use CodeInc\ObjectStorage\Interfaces\StoreObjectMetadataInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectMetadataInterface;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftObjectException;
 use Guzzle\Http\EntityBody;
 use OpenCloud\Common\Metadata;
