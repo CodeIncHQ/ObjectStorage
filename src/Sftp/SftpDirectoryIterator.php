@@ -21,6 +21,8 @@
 //
 namespace CodeInc\ObjectStorage\Sftp;
 use CodeInc\ObjectStorage\Utils\DirectoryIterator;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
 
 
 /**
@@ -29,7 +31,7 @@ use CodeInc\ObjectStorage\Utils\DirectoryIterator;
  * @package CodeInc\ObjectStorage\Sftp
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SftpDirectoryIterator extends DirectoryIterator {
+class SftpDirectoryIterator extends DirectoryIterator implements StoreContainerIteratorInterface {
 	/**
 	 * @var SftpDirectory
 	 */
@@ -44,6 +46,13 @@ class SftpDirectoryIterator extends DirectoryIterator {
 		$this->sftpDirectory = $sftpDirectory;
 		parent::__construct($sftpDirectory->getSftpPath());
 		$this->ignoreHiddenFiles();
+	}
+
+	/**
+	 * @return SftpDirectory
+	 */
+	public function getContainer():StoreContainerInterface {
+		return $this->sftpDirectory;
 	}
 
 	/**

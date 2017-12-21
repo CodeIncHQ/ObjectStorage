@@ -106,4 +106,13 @@ class LocalDirectory extends AbstractDirectory {
 	public function getDirectoryPath():string {
 		return $this->directoryPath;
 	}
+
+	/**
+	 * Alias of getDirectoryPath().
+	 *
+	 * @return string
+	 */
+	public function getName():string {
+		return $this->getDirectoryPath();
+	}
 }

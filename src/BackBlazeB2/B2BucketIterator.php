@@ -16,35 +16,35 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     16:55
+// Time:     17:11
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Swift;
-use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerIteratorException;
+namespace CodeInc\ObjectStorage\BackBlazeB2;
+use ChrisWhite\B2\File;
+use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2BucketIteratorException;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
-use OpenCloud\ObjectStore\Resource\DataObject;
 
 
 /**
- * Class SwiftContainerIterator
+ * Class B2BucketIterator
  *
- * @package CodeInc\ObjectStorage\Swift
+ * @package CodeInc\ObjectStorage\BackBlazeB2
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftContainerIterator implements StoreContainerIteratorInterface {
-	const RETRY_ON_FAILURE = SwiftContainer::RETRY_ON_FAILURE; // times
-	const WAIT_BETWEEN_FAILURES = SwiftContainer::WAIT_BETWEEN_FAILURES; // seconds
+class B2BucketIterator implements StoreContainerIteratorInterface {
+	const RETRY_ON_FAILURE = B2Bucket::RETRY_ON_FAILURE; // times
+	const WAIT_BETWEEN_FAILURES = B2Bucket::WAIT_BETWEEN_FAILURES; // seconds
 
 	/**
-	 * @var SwiftContainer
+	 * @var B2Bucket
 	 */
-	private $swiftContainer;
+	private $b2Bucket;
 
 	/**
-	 * @var DataObject[]
+	 * @var File[]
 	 */
-	private $objects = [];
+	private $files = [];
 
 	/**
 	 * @var int
@@ -52,49 +52,33 @@ class SwiftContainerIterator implements StoreContainerIteratorInterface {
 	private $position = 0;
 
 	/**
-	 * SwiftContainerIterator constructor.
+	 * B2BucketIterator constructor.
 	 *
-	 * @param SwiftContainer $swiftContainer
-	 * @throws SwiftContainerIteratorException
+	 * @param B2Bucket $b2Bucket
 	 */
-	public function __construct(SwiftContainer $swiftContainer) {
-		$this->swiftContainer = $swiftContainer;
-		$this->listObjects();
+	public function __construct(B2Bucket $b2Bucket) {
+		$this->b2Bucket = $b2Bucket;
 	}
 
 	/**
-	 * @return SwiftContainer
+	 * @return B2Bucket
 	 */
 	public function getContainer():StoreContainerInterface {
-		return $this->swiftContainer;
+		return $this->b2Bucket;
 	}
 
 	/**
 	 * @param int $retryOnFailure
-	 * @throws
+	 * @throws B2BucketIteratorException
 	 */
-	private function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE) {
+	public function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
-			if (!empty($this->objects)) {
-				$this->objects = [];
+			if (!empty($this->files)) {
+				$this->files = [];
 			}
-			$containerClient = $this->swiftContainer->getContainerClient();
-			$objectsCount = $containerClient->getMetadata()->getProperty('object-count');
-			if ($objectsCount > 0) {
-				$processObjects = 0;
-				$marker = '';
-				while ($marker !== null) {
-					$dataObjects = $containerClient->objectList(['marker' => $marker]);
-					if (!$dataObjects->count()) {
-						break;
-					}
-					foreach ($dataObjects as $dataObject) {
-						/** @var $dataObject DataObject */
-						$this->objects[] = $dataObject;
-						$processObjects++;
-						$marker = $processObjects < $objectsCount ? $dataObject->getName() : null;
-					}
-				}
+			foreach ($this->b2Bucket->getB2Client()->listFiles(['BucketName' => $this->b2Bucket->getName()]) as $file) {
+				/** @var File $file */
+				$this->files[] = $file;
 			}
 		}
 		catch (\Throwable $exception) {
@@ -103,8 +87,8 @@ class SwiftContainerIterator implements StoreContainerIteratorInterface {
 				$this->listObjects(--$retryOnFailure);
 			}
 			else {
-				throw new SwiftContainerIteratorException($this,
-					"Error while listing the objects of the Swift container \"{$this->swiftContainer->getName()}\"",
+				throw new B2BucketIteratorException($this,
+					"Unable to list the objects of the B2 bucket \"{$this->b2Bucket->getName()}\"",
 					$exception);
 			}
 		}
@@ -120,10 +104,10 @@ class SwiftContainerIterator implements StoreContainerIteratorInterface {
 	/**
 	 * Iterator method.
 	 *
-	 * @return SwiftObject
+	 * @return B2Object
 	 */
-	public function current():SwiftObject {
-		return new SwiftObject($this->objects[$this->position], $this->swiftContainer);
+	public function current():B2Object {
+		return new B2Object($this->files[$this->position], $this->b2Bucket);
 	}
 
 	/**
@@ -148,6 +132,6 @@ class SwiftContainerIterator implements StoreContainerIteratorInterface {
 	 * @return bool
 	 */
 	public function valid():bool {
-		return array_key_exists($this->position, $this->objects);
+		return array_key_exists($this->position, $this->files);
 	}
 }

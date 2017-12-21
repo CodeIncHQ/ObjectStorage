@@ -95,7 +95,7 @@ class B2Object implements StoreObjectInterface {
 		if (!$this->content) {
 			try {
 				$this->content = EntityBody::factory($this->b2bucket->getB2Client()->download([
-					'BucketName' => $this->b2bucket->getBucketName(),
+					'BucketName' => $this->b2bucket->getName(),
 					'FileName' => $this->getName()
 				]));
 			}

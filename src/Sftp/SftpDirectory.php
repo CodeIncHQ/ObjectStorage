@@ -49,6 +49,11 @@ class SftpDirectory extends AbstractDirectory {
 	private $sftpPath;
 
 	/**
+	 * @var string
+	 */
+	private $directoryPath;
+
+	/**
 	 * SftpContainer constructor.
 	 *
 	 * @param string $directoryPath
@@ -73,6 +78,7 @@ class SftpDirectory extends AbstractDirectory {
 				$this->sftpPath .= "/";
 			}
 			$this->sftpPath .= $directoryPath;
+			$this->directoryPath = $directoryPath;
 		}
 		catch (\Throwable $exception) {
 			throw new SftpDirectoryException($this,
@@ -95,6 +101,13 @@ class SftpDirectory extends AbstractDirectory {
 	 */
 	public function getObjectPath(string $objectName):string {
 		return $this->sftpPath.$objectName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName():string {
+		return $this->directoryPath;
 	}
 
 	/**

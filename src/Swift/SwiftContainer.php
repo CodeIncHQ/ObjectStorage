@@ -58,7 +58,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	/**
 	 * @var string
 	 */
-	private $containerName;
+	private $name;
 
 	/**
 	 * SwiftContainer constructor.
@@ -69,7 +69,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	 * @throws SwiftContainerException
 	 */
 	public function __construct(string $containerName, string $containerRegion, OpenStack $openStackClient) {
-		$this->setContainerName($containerName);
+		$this->setName($containerName);
 		$this->setContainerRegion($containerRegion);
 		$this->setOpenStackClient($openStackClient);
 		$this->loadContainerClient();
@@ -108,14 +108,14 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
-	 * @param string $containerName
+	 * @param string $name
 	 * @throws SwiftContainerException
 	 */
-	protected function setContainerName(string $containerName) {
-		if (empty($containerName)) {
+	protected function setName(string $name) {
+		if (empty($name)) {
 			throw new SwiftContainerException($this,"The container name can not be empty");
 		}
-		$this->containerName = $containerName;
+		$this->name = $name;
 	}
 
 	/**
@@ -143,11 +143,11 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 		try {
 			$this->containerClient = $this->openStackClient
 				->objectStoreService('swift', $this->containerRegion)
-				->getContainer($this->containerName);
+				->getContainer($this->name);
 		}
 		catch (\Throwable $exception) {
 			throw new SwiftContainerException($this,
-				"Unable to load the OpenStack client for the container \"$this->containerName\" "
+				"Unable to load the OpenStack client for the container \"$this->name\" "
 				."from the region \"$this->containerRegion\"",
 				$exception);
 		}
@@ -156,8 +156,8 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	/**
 	 * @return string
 	 */
-	public function getContainerName():string {
-		return $this->containerName;
+	public function getName():string {
+		return $this->name;
 	}
 
 	/**
@@ -188,7 +188,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 		catch (\Throwable $exception) {
 			throw new SwiftContainerException($this,
 				"Error while checking for the existance of the object \"$objectName\" "
-				."in the Swift container \"$this->containerName\"",
+				."in the Swift container \"$this->name\"",
 				$exception);
 		}
 	}
@@ -225,7 +225,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 			else {
 				throw new SwiftContainerException($this,
 					"Error while uploading the object \"{$cloudStorageObject->getName()}\" "
-					."to the Swift container \"$this->containerName\"",
+					."to the Swift container \"$this->name\"",
 					$exception);
 			}
 		}
@@ -248,7 +248,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 			}
 			else {
 				throw new SwiftContainerException($this, "Error while uploading the object \"$objectName\" "
-					."to the Swift Container bucket \"$this->containerName\"", $exception);
+					."to the Swift Container bucket \"$this->name\"", $exception);
 			}
 		}
 	}

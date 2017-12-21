@@ -20,6 +20,10 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Swift\Exceptions;
+use CodeInc\ObjectStorage\Swift\SwiftContainerIterator;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorExceptionInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use Throwable;
 
 
 /**
@@ -28,6 +32,28 @@ namespace CodeInc\ObjectStorage\Swift\Exceptions;
  * @package CodeInc\ObjectStorage\Swift\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftContainerIteratorException extends SwiftContainerException {
+class SwiftContainerIteratorException extends SwiftContainerException implements StoreContainerIteratorExceptionInterface {
+	/**
+	 * @var SwiftContainerIterator
+	 */
+	private $iterator;
 
+	/**
+	 * SwiftContainerIteratorException constructor.
+	 *
+	 * @param SwiftContainerIterator $iterator
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(SwiftContainerIterator $iterator, string $message, Throwable $previous = null) {
+		$this->iterator = $iterator;
+		parent::__construct($iterator->getContainer(), $message, $previous);
+	}
+
+	/**
+	 * @return SwiftContainerIterator
+	 */
+	public function getIterator():StoreContainerIteratorInterface {
+		return $this->iterator;
+	}
 }

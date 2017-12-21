@@ -16,49 +16,45 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     15:50
+// Time:     17:14
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\DirectoryIterator;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+namespace CodeInc\ObjectStorage\BackBlazeB2\Exceptions;
+use CodeInc\ObjectStorage\BackBlazeB2\B2BucketIterator;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorExceptionInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use Throwable;
 
 
 /**
- * Class LocalDirectoryIterator
+ * Class B2BucketIteratorException
  *
- * @package CodeInc\ObjectStorage\Local
+ * @package CodeInc\ObjectStorage\BackBlazeB2\Exceptions
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalDirectoryIterator extends DirectoryIterator implements StoreContainerIteratorInterface {
+class B2BucketIteratorException extends B2BucketException implements StoreContainerIteratorExceptionInterface {
 	/**
-	 * @var LocalDirectory
+	 * @var B2BucketIterator
 	 */
-	private $localDirectory;
+	private $iterator;
 
 	/**
-	 * LocalDirectoryIterator constructor.
+	 * B2BucketIteratorException constructor.
 	 *
-	 * @param LocalDirectory $localDirectory
+	 * @param B2BucketIterator $iterator
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function __construct(LocalDirectory $localDirectory) {
-		$this->localDirectory = $localDirectory;
-		parent::__construct($localDirectory->getDirectoryPath());
-		$this->ignoreHiddenFiles();
+	public function __construct(B2BucketIterator $iterator, string $message, Throwable $previous = null) {
+		$this->iterator = $iterator;
+		parent::__construct($iterator->getContainer(), $message, $previous);
 	}
 
 	/**
-	 * @return LocalDirectory
+	 * @return StoreContainerIteratorInterface
 	 */
-	public function getContainer():StoreContainerInterface {
-		return $this->localDirectory;
+	public function getIterator():StoreContainerIteratorInterface {
+		return $this->iterator;
 	}
 
-	/**
-	 * @return LocalFile
-	 */
-	public function current():LocalFile {
-		return new LocalFile(parent::current()->getBasename(), $this->localDirectory);
-	}
 }

@@ -16,49 +16,21 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     15:50
+// Time:     17:11
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\DirectoryIterator;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
- * Class LocalDirectoryIterator
+ * Interface StoreContainerIteratorInterface
  *
- * @package CodeInc\ObjectStorage\Local
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalDirectoryIterator extends DirectoryIterator implements StoreContainerIteratorInterface {
+interface StoreContainerIteratorInterface extends \Iterator {
 	/**
-	 * @var LocalDirectory
+	 * @return StoreContainerInterface
 	 */
-	private $localDirectory;
-
-	/**
-	 * LocalDirectoryIterator constructor.
-	 *
-	 * @param LocalDirectory $localDirectory
-	 */
-	public function __construct(LocalDirectory $localDirectory) {
-		$this->localDirectory = $localDirectory;
-		parent::__construct($localDirectory->getDirectoryPath());
-		$this->ignoreHiddenFiles();
-	}
-
-	/**
-	 * @return LocalDirectory
-	 */
-	public function getContainer():StoreContainerInterface {
-		return $this->localDirectory;
-	}
-
-	/**
-	 * @return LocalFile
-	 */
-	public function current():LocalFile {
-		return new LocalFile(parent::current()->getBasename(), $this->localDirectory);
-	}
+	public function getContainer():StoreContainerInterface;
 }

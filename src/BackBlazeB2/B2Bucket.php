@@ -34,7 +34,7 @@ use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
  * @package CodeInc\ObjectStorage\BackBlazeB2
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class B2Bucket implements StoreContainerInterface {
+class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 	const RETRY_ON_FAILURE = 3; // times
 	const WAIT_BETWEEN_FAILURES = 5; // seconds
 
@@ -46,7 +46,7 @@ class B2Bucket implements StoreContainerInterface {
 	/**
 	 * @var string
 	 */
-	private $bucketName;
+	private $name;
 
 	/**
 	 * B2Bucket constructor.
@@ -56,7 +56,7 @@ class B2Bucket implements StoreContainerInterface {
 	 * @throws B2BucketException
 	 */
 	public function __construct(string $bucketName, Client $b2Client) {
-		$this->setBucketName($bucketName);
+		$this->setName($bucketName);
 		$this->setB2Client($b2Client);
 	}
 
@@ -85,11 +85,11 @@ class B2Bucket implements StoreContainerInterface {
 	 * @param string $bucketName
 	 * @throws B2BucketException
 	 */
-	protected function setBucketName(string $bucketName) {
+	protected function setName(string $bucketName) {
 		if (empty($bucketName)) {
 			throw new B2BucketException($this,"The bucket name can not be empty");
 		}
-		$this->bucketName = $bucketName;
+		$this->name = $bucketName;
 	}
 
 	/**
@@ -109,8 +109,8 @@ class B2Bucket implements StoreContainerInterface {
 	/**
 	 * @return string
 	 */
-	public function getBucketName():string {
-		return $this->bucketName;
+	public function getName():string {
+		return $this->name;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class B2Bucket implements StoreContainerInterface {
 	public function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE):array {
 		try {
 			$objects = [];
-			foreach ($this->b2Client->listFiles(['BucketName' => $this->bucketName]) as $file) {
+			foreach ($this->b2Client->listFiles(['BucketName' => $this->name]) as $file) {
 				/** @var File $file */
 				$objects[$file->getName()] = new B2Object($file, $this);
 			}
@@ -135,7 +135,7 @@ class B2Bucket implements StoreContainerInterface {
 			}
 			else {
 				throw new B2BucketException($this,
-					"Unable to list the objects of the B2 bucket \"$this->bucketName\"",
+					"Unable to list the objects of the B2 bucket \"$this->name\"",
 					$exception);
 			}
 		}
@@ -151,7 +151,7 @@ class B2Bucket implements StoreContainerInterface {
 		int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			$this->b2Client->upload([
-				'BucketName' => $this->bucketName,
+				'BucketName' => $this->name,
 				'FileName' => $objectName ?? $cloudStorageObject->getName(),
 				'Body' => $cloudStorageObject->getContent()
 			]);
@@ -164,7 +164,7 @@ class B2Bucket implements StoreContainerInterface {
 			else {
 				throw new B2BucketException($this,
 					"Error while uploading the object \"{$cloudStorageObject->getName()}\" "
-					."to the B2 bucket \"$this->bucketName\"",
+					."to the B2 bucket \"$this->name\"",
 					$exception);
 			}
 		}
@@ -180,7 +180,7 @@ class B2Bucket implements StoreContainerInterface {
 		try {
 			return new B2Object(
 				$this->b2Client->getFile([
-					'BucketName' => $this->bucketName,
+					'BucketName' => $this->name,
 					'FileName' => $objectName
 				]),
 				$this
@@ -193,7 +193,7 @@ class B2Bucket implements StoreContainerInterface {
 			}
 			else {
 				throw new B2BucketException($this,
-					"Error while downloading the object \"$objectName\" from the B2 bucket \"$this->bucketName\"",
+					"Error while downloading the object \"$objectName\" from the B2 bucket \"$this->name\"",
 					$exception);
 			}
 		}
@@ -207,13 +207,13 @@ class B2Bucket implements StoreContainerInterface {
 	public function hasObject(string $objectName):bool {
 		try {
 			return $this->b2Client->fileExists([
-				'BucketName' => $this->bucketName,
+				'BucketName' => $this->name,
 				'FileName' => $objectName
 			]);
 		}
 		catch (\Throwable $exception) {
 			throw new B2BucketException($this,
-				"Error while checking for the object \"$objectName\" in the B2 bucket \"$this->bucketName\"",
+				"Error while checking for the object \"$objectName\" in the B2 bucket \"$this->name\"",
 				$exception);
 		}
 	}

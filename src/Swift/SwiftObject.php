@@ -116,7 +116,7 @@ class SwiftObject implements StoreObjectInterface, StoreObjectMetadataInterface 
 		catch (\Throwable $exception) {
 			throw new SwiftObjectException($this,
 				"Error while returning the content of the object \"{$this->getName()}\" "
-				."from the Swift Container \"{$this->swiftContainer->getContainerName()}\"",
+				."from the Swift Container \"{$this->swiftContainer->getName()}\"",
 				$exception);
 		}
 	}
@@ -146,7 +146,7 @@ class SwiftObject implements StoreObjectInterface, StoreObjectMetadataInterface 
 		catch (\Exception $exception) {
 			throw new SwiftObjectException($this,
 				"Error while downloading the content of the object \"{$this->getName()}\" "
-				."from the Swift Container \"{$this->swiftContainer->getContainerName()}\"",
+				."from the Swift Container \"{$this->swiftContainer->getName()}\"",
 				$exception);
 		}
 	}

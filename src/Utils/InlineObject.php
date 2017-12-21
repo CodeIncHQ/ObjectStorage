@@ -91,7 +91,8 @@ class InlineObject implements StoreObjectInterface {
 	 */
 	public function getContent():EntityBody {
 		if (!$this->content) {
-			throw new InlineObjectException($this, "No content is set for the object \"{$this->getName()}\"");
+			throw new InlineObjectException($this,
+				"No content is set for the object \"{$this->getName()}\"");
 		}
 		return $this->content;
 	}

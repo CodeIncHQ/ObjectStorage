@@ -31,6 +31,11 @@ use CodeInc\Service\Service\ServiceInterface;
  */
 interface StoreContainerInterface extends ServiceInterface {
 	/**
+	 * @return string
+	 */
+	public function getName();
+
+	/**
 	 * @param StoreObjectInterface $cloudStorageObject
 	 * @param string $objectName
 	 * @return void
