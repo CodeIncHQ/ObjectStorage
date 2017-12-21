@@ -101,7 +101,7 @@ class SftpDirectory extends AbstractDirectory {
 	 */
 	public function getObjectPath(string $objectName):string {
 		return $this->sftpPath
-			.(substr($this->sftpPath, -1) == "/" ? "/" : "")
+			.(substr($this->sftpPath, -1) != "/" ? "/" : "")
 			.$objectName;
 	}
 
