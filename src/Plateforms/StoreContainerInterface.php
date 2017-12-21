@@ -20,7 +20,6 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Plateforms;
-use CodeInc\ObjectStorage\Plateforms\StoreObjectInterface;
 use CodeInc\Service\Service\ServiceInterface;
 
 
