@@ -42,21 +42,38 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
 	 * @param string|null $objectName
+	 * @param bool|null $allowStreaming
 	 * @throws AbstractDirectoryException
 	 */
-	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null) {
+	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+		bool $allowStreaming = null) {
 		try {
-			if (($f = fopen($this->getObjectPath($objectName ?? $cloudStorageObject->getName()), "w")) === false) {
-				throw new AbstractDirectoryException($this, "Unable to open the object for writing");
+			$objectPath = $this->getObjectPath($objectName ?? $cloudStorageObject->getName());
+
+			// if streaming the feed content is allowed
+			if ($allowStreaming !== false) {
+				if (($f = fopen($objectPath, "w")) === false) {
+					throw new AbstractDirectoryException($this,
+						"Unable to open the destination file for writing");
+				}
+				$content = $cloudStorageObject->getContent();
+				$content->rewind();
+				while (!$content->feof()) {
+					if (fwrite($f, $content->read(8192), 8192) === false) {
+						throw new AbstractDirectoryException($this,
+							"Unable to write 8192 bytes in the destination file");
+					}
+				}
+				fclose($f);
 			}
-			$content = $cloudStorageObject->getContent();
-			$content->rewind();
-			while (!$content->feof()) {
-				if (fwrite($f, $content->read(8192), 8192) === false) {
-					throw new AbstractDirectoryException($this,"Unable to write in the object");
+
+			// if streaming is disabled
+			else {
+				if (file_put_contents($objectPath, $cloudStorageObject->getContent()->__toString()) === false) {
+					throw new AbstractDirectoryException($this,
+						"Unable to write the whole object content in the destination file");
 				}
 			}
-			fclose($f);
 		}
 		catch (\Throwable $exception) {
 			throw new AbstractDirectoryException($this,

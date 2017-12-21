@@ -199,14 +199,16 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	 * Uploads an object.
 	 *
 	 * @param StoreObjectInterface $cloudStorageObject
-	 * @param string $objectName
-	 * @param int $retryOnFailure
+	 * @param string|null $objectName
 	 * @param array|null $httpHeaders
+	 * @param bool|null $allowStreaming
+	 * @param int $retryOnFailure
 	 * @throws SwiftContainerException
 	 */
 	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
-		array $httpHeaders = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
+		array $httpHeaders = null, bool $allowStreaming = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
+			// preparing the headers
 			$headers = DataObject::stockHeaders(
 				$cloudStorageObject instanceof StoreObjectMetadataInterface
 					? DataObject::stockHeaders($cloudStorageObject->getMetadata())
@@ -215,9 +217,17 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 			if ($httpHeaders) {
 				$headers = array_merge($headers, $httpHeaders);
 			}
+
+			// preparing the content
+			$content = $cloudStorageObject->getContent();
+			if ($allowStreaming === false) {
+				$content = $content->__toString();
+			}
+
+			// upload the object
 			$this->containerClient->uploadObject(
 				$objectName ?? $cloudStorageObject->getName(),
-				$cloudStorageObject->getContent(),
+				$content,
 				$headers
 			);
 		}

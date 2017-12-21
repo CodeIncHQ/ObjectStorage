@@ -143,19 +143,29 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 
 	/**
 	 * @param StoreObjectInterface $cloudStorageObject
-	 * @param string $objectName
+	 * @param string|null $objectName
+	 * @param bool|null $allowStreaming
 	 * @param int $retryOnFailure
 	 * @throws B2BucketException
 	 */
 	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
-		int $retryOnFailure = self::RETRY_ON_FAILURE) {
+		bool $allowStreaming = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
-			$content = $cloudStorageObject->getContent();
-			$content->rewind();
+			// preparing the content
+			if ($allowStreaming !== false) {
+				$content = $cloudStorageObject->getContent();
+				$content->rewind();
+				$content = $content->getStream();
+			}
+			else {
+				$content = $cloudStorageObject->getContent()->__toString();
+			}
+
+			// uploading
 			$this->b2Client->upload([
 				'BucketName' => $this->name,
 				'FileName' => $objectName ?? $cloudStorageObject->getName(),
-				'Body' => $content->getStream()
+				'Body' => $content
 			]);
 		}
 		catch (\Throwable $exception) {
