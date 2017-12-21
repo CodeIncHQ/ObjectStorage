@@ -24,6 +24,7 @@ use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerException;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerFactoryException;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectMetadataInterface;
 use OpenCloud\ObjectStore\Resource\Container;
 use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\OpenStack;
@@ -35,7 +36,7 @@ use OpenCloud\OpenStack;
  * @package CodeInc\ObjectStorage\Swift
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftContainer implements StoreContainerInterface {
+class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	const RETRY_ON_FAILURE = 3; // times
 	const WAIT_BETWEEN_FAILURES = 5; // seconds
 
@@ -167,57 +168,12 @@ class SwiftContainer implements StoreContainerInterface {
 	}
 
 	/**
-	 * @return string
+	 * Returns the iterator.
+	 *
+	 * @return SwiftContainerIterator
 	 */
-	public function getContainerRegion():string {
-		return $this->containerRegion;
-	}
-
-	/**
-	 * @return OpenStack
-	 */
-	public function getOpenStackClient():OpenStack {
-		return $this->openStackClient;
-	}
-
-	/**
-	 * @param int $retryOnFailure
-	 * @return SwiftObject[]
-	 * @throws
-	 */
-	public function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE):array {
-		try {
-			$object = [];
-			$objectsCount = $this->containerClient->getMetadata()->getProperty('object-count');
-			if ($objectsCount > 0) {
-				$processObjects = 0;
-				$marker = '';
-				while ($marker !== null) {
-					$dataObjects = $this->containerClient->objectList(['marker' => $marker]);
-					if (!$dataObjects->count()) {
-						break;
-					}
-					foreach ($dataObjects as $dataObject) {
-						/** @var $dataObject DataObject */
-						$object[$dataObject->getName()] = new SwiftObject($dataObject, $this);
-						$processObjects++;
-						$marker = $processObjects < $objectsCount ? $dataObject->getName() : null;
-					}
-				}
-			}
-			return $object;
-		}
-		catch (\Throwable $exception) {
-			if ($retryOnFailure > 0) {
-				sleep(self::WAIT_BETWEEN_FAILURES);
-				return $this->listObjects(--$retryOnFailure);
-			}
-			else {
-				throw new SwiftContainerException($this,
-					"Error while listing the objects of the Swift container \"$this->containerName\"",
-					$exception);
-			}
-		}
+	public function getIterator():SwiftContainerIterator {
+		return new SwiftContainerIterator($this);
 	}
 
 	/**
@@ -247,11 +203,18 @@ class SwiftContainer implements StoreContainerInterface {
 	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
 		array $httpHeaders = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
-
+			$headers = DataObject::stockHeaders(
+				$cloudStorageObject instanceof StoreObjectMetadataInterface
+					? DataObject::stockHeaders($cloudStorageObject->getMetadata())
+					: []
+			);
+			if ($httpHeaders) {
+				$headers = array_merge($headers, $httpHeaders);
+			}
 			$this->containerClient->uploadObject(
 				$objectName ?? $cloudStorageObject->getName(),
 				$cloudStorageObject->getContent(),
-				$this->buildObjectHeaders($cloudStorageObject, $httpHeaders)
+				$headers
 			);
 		}
 		catch (\Throwable $exception) {
@@ -266,16 +229,6 @@ class SwiftContainer implements StoreContainerInterface {
 					$exception);
 			}
 		}
-	}
-
-	/**
-	 * @param StoreObjectInterface $cloudStorageObject
-	 * @param array|null $httpHeaders
-	 * @return array
-	 */
-	private function buildObjectHeaders(StoreObjectInterface $cloudStorageObject, array $httpHeaders = null) {
-		$headers = DataObject::stockHeaders($cloudStorageObject->getMetadata());
-		return $httpHeaders ? array_merge($headers, $httpHeaders) : $headers;
 	}
 
 	/**
