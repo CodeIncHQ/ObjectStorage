@@ -40,15 +40,15 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 	abstract protected function getObjectPath(string $objectName):string;
 
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param StoreObjectInterface $storeObject
 	 * @param string|null $objectName
 	 * @param bool|null $allowStreaming
 	 * @throws AbstractDirectoryException
 	 */
-	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
 		bool $allowStreaming = null) {
 		try {
-			$objectPath = $this->getObjectPath($objectName ?? $cloudStorageObject->getName());
+			$objectPath = $this->getObjectPath($objectName ?? $storeObject->getName());
 
 			// if streaming the feed content is allowed
 			if ($allowStreaming !== false) {
@@ -56,7 +56,7 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 					throw new AbstractDirectoryException($this,
 						"Unable to open the destination file for writing");
 				}
-				$content = $cloudStorageObject->getContent();
+				$content = $storeObject->getContent();
 				$content->rewind();
 				while (!$content->feof()) {
 					if (fwrite($f, $content->read(8192), 8192) === false) {
@@ -69,7 +69,7 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 
 			// if streaming is disabled
 			else {
-				if (file_put_contents($objectPath, $cloudStorageObject->getContent()->__toString()) === false) {
+				if (file_put_contents($objectPath, $storeObject->getContent()->__toString()) === false) {
 					throw new AbstractDirectoryException($this,
 						"Unable to write the whole object content in the destination file");
 				}
@@ -77,7 +77,7 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 		}
 		catch (\Throwable $exception) {
 			throw new AbstractDirectoryException($this,
-				"Unable to upload the object \"{$cloudStorageObject->getName()}\"", $exception);
+				"Unable to upload the object \"{$storeObject->getName()}\"", $exception);
 		}
 	}
 

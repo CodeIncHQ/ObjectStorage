@@ -36,12 +36,14 @@ interface StoreContainerInterface extends ServiceInterface {
 	public function getName();
 
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
-	 * @param string $objectName
+	 * @param StoreObjectInterface $storeObject
+	 * @param string|null $objectName
+	 * @param bool|null $allowStreaming
 	 * @return void
 	 * @throws
 	 */
-	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null);
+	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
+		bool $allowStreaming = null);
 
 	/**
 	 * @param string $objectName

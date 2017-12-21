@@ -198,20 +198,20 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	/**
 	 * Uploads an object.
 	 *
-	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param StoreObjectInterface $storeObject
 	 * @param string|null $objectName
 	 * @param array|null $httpHeaders
 	 * @param bool|null $allowStreaming
 	 * @param int $retryOnFailure
 	 * @throws SwiftContainerException
 	 */
-	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
-		array $httpHeaders = null, bool $allowStreaming = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
+	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
+		bool $allowStreaming = null, array $httpHeaders = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			// preparing the headers
 			$headers = DataObject::stockHeaders(
-				$cloudStorageObject instanceof StoreObjectMetadataInterface
-					? DataObject::stockHeaders($cloudStorageObject->getMetadata())
+				$storeObject instanceof StoreObjectMetadataInterface
+					? DataObject::stockHeaders($storeObject->getMetadata())
 					: []
 			);
 			if ($httpHeaders) {
@@ -219,14 +219,14 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 			}
 
 			// preparing the content
-			$content = $cloudStorageObject->getContent();
+			$content = $storeObject->getContent();
 			if ($allowStreaming === false) {
 				$content = $content->__toString();
 			}
 
 			// upload the object
 			$this->containerClient->uploadObject(
-				$objectName ?? $cloudStorageObject->getName(),
+				$objectName ?? $storeObject->getName(),
 				$content,
 				$headers
 			);
@@ -234,11 +234,11 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 		catch (\Throwable $exception) {
 			if ($retryOnFailure > 0) {
 				sleep(self::WAIT_BETWEEN_FAILURES);
-				$this->uploadObject($cloudStorageObject, $httpHeaders, --$retryOnFailure);
+				$this->uploadObject($storeObject, $httpHeaders, --$retryOnFailure);
 			}
 			else {
 				throw new SwiftContainerException($this,
-					"Error while uploading the object \"{$cloudStorageObject->getName()}\" "
+					"Error while uploading the object \"{$storeObject->getName()}\" "
 					."to the Swift container \"$this->name\"",
 					$exception);
 			}

@@ -142,40 +142,40 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
-	 * @param StoreObjectInterface $cloudStorageObject
+	 * @param StoreObjectInterface $storeObject
 	 * @param string|null $objectName
 	 * @param bool|null $allowStreaming
 	 * @param int $retryOnFailure
 	 * @throws B2BucketException
 	 */
-	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
 		bool $allowStreaming = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			// preparing the content
 			if ($allowStreaming !== false) {
-				$content = $cloudStorageObject->getContent();
+				$content = $storeObject->getContent();
 				$content->rewind();
 				$content = $content->getStream();
 			}
 			else {
-				$content = $cloudStorageObject->getContent()->__toString();
+				$content = $storeObject->getContent()->__toString();
 			}
 
 			// uploading
 			$this->b2Client->upload([
 				'BucketName' => $this->name,
-				'FileName' => $objectName ?? $cloudStorageObject->getName(),
+				'FileName' => $objectName ?? $storeObject->getName(),
 				'Body' => $content
 			]);
 		}
 		catch (\Throwable $exception) {
 			if ($retryOnFailure > 0) {
 				sleep(self::WAIT_BETWEEN_FAILURES);
-				$this->uploadObject($cloudStorageObject, --$retryOnFailure);
+				$this->uploadObject($storeObject, --$retryOnFailure);
 			}
 			else {
 				throw new B2BucketException($this,
-					"Error while uploading the object \"{$cloudStorageObject->getName()}\" "
+					"Error while uploading the object \"{$storeObject->getName()}\" "
 					."to the B2 bucket \"$this->name\"",
 					$exception);
 			}
