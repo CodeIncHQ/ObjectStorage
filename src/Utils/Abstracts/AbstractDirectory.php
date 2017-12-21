@@ -51,7 +51,7 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 			}
 			$content = $cloudStorageObject->getContent();
 			while (!$content->feof()) {
-				if (fwrite($f, $content->read(8192), 8192) === false) {
+				if (fwrite($f, stream_get_contents($content->getStream(), 8192), 8192) === false) {
 					throw new AbstractDirectoryException($this,"Unable to write in the object");
 				}
 			}
