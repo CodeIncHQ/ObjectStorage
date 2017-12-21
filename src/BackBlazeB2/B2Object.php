@@ -22,7 +22,8 @@
 namespace CodeInc\ObjectStorage\BackBlazeB2;
 use ChrisWhite\B2\File;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2ObjectException;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Abstracts\AbstractStoreObject;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use Guzzle\Http\EntityBody;
 
 
@@ -32,7 +33,7 @@ use Guzzle\Http\EntityBody;
  * @package CodeInc\ObjectStorage\BackBlazeB2
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class B2Object implements StoreObjectInterface {
+class B2Object extends AbstractStoreObject {
 	/**
 	 * @var File
 	 */
@@ -55,29 +56,8 @@ class B2Object implements StoreObjectInterface {
 	 * @param B2Bucket $b2Bucket
 	 */
 	public function __construct(File $b2File, B2Bucket $b2Bucket) {
-		$this->setB2File($b2File);
-		$this->setB2bucket($b2Bucket);
-	}
-
-	/**
-	 * @param B2Bucket $b2bucket
-	 */
-	protected function setB2bucket(B2Bucket $b2bucket) {
-		$this->b2bucket = $b2bucket;
-	}
-
-	/**
-	 * @param File $b2File
-	 */
-	protected function setB2File(File $b2File) {
 		$this->b2File = $b2File;
-	}
-
-	/**
-	 * @return B2Bucket
-	 */
-	public function getB2bucket():B2Bucket {
-		return $this->b2bucket;
+		$this->b2bucket = $b2Bucket;
 	}
 
 	/**
@@ -109,10 +89,9 @@ class B2Object implements StoreObjectInterface {
 	}
 
 	/**
-	 * @return int
-	 * @throws B2ObjectException
+	 * @return B2Bucket
 	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
+	public function getParentContainer():StoreContainerInterface {
+		return $this->b2bucket;
 	}
 }

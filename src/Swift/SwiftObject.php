@@ -20,8 +20,8 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Swift;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectMetadataInterface;
+use CodeInc\ObjectStorage\Utils\Abstracts\AbstractStoreObject;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftObjectException;
 use Guzzle\Http\EntityBody;
 use OpenCloud\Common\Metadata;
@@ -34,7 +34,7 @@ use OpenCloud\ObjectStore\Resource\DataObject;
  * @package CodeInc\ObjectStorage\Swift
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SwiftObject implements StoreObjectInterface, StoreObjectMetadataInterface {
+class SwiftObject extends AbstractStoreObject {
 	/**
 	 * @var DataObject
 	 */
@@ -78,7 +78,7 @@ class SwiftObject implements StoreObjectInterface, StoreObjectMetadataInterface 
 	/**
 	 * @return SwiftContainer
 	 */
-	public function getSwiftContainer():SwiftContainer {
+	public function getParentContainer():StoreContainerInterface {
 		return $this->swiftContainer;
 	}
 
@@ -94,14 +94,6 @@ class SwiftObject implements StoreObjectInterface, StoreObjectMetadataInterface 
 	 */
 	public function getName():string {
 		return $this->swiftDataObject->getName();
-	}
-
-	/**
-	 * @return int
-	 * @throws SwiftObjectException
-	 */
-	public function getSize():int {
-		return $this->getContent()->getSize();
 	}
 
 	/**

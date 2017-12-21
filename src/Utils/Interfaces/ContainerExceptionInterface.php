@@ -23,7 +23,7 @@ namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
- * Interface StoreContainerExceptionInterface
+ * Interface ContainerExceptionInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>

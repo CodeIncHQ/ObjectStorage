@@ -177,6 +177,8 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
+	 * Verifies if an object exists in the container.
+	 *
 	 * @param string $objectName
 	 * @return bool
 	 * @throws SwiftContainerException
@@ -194,6 +196,8 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
+	 * Uploads an object.
+	 *
 	 * @param StoreObjectInterface $cloudStorageObject
 	 * @param string $objectName
 	 * @param int $retryOnFailure
@@ -232,6 +236,8 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
+	 * Returns an object.
+	 *
 	 * @param string $objectName
 	 * @param int $retryOnFailure
 	 * @return SwiftObject
@@ -258,6 +264,8 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
+	 * Deletes an object.
+	 *
 	 * @param string $objectName
 	 * @param int $retryOnFailure
 	 * @throws SwiftContainerException

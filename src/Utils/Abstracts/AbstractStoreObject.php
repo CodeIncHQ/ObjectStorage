@@ -15,50 +15,42 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:50
+// Date:     21/12/2017
+// Time:     21:00
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+namespace CodeInc\ObjectStorage\Utils\Abstracts;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectContainerInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectDeleteInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\Service\DomainObject\DomainObjectInterface;
 
 
 /**
- * Class LocalObject
+ * Class AbstractObject
  *
- * @package CodeInc\ObjectStorage\Local
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalFile extends AbstractFile {
+abstract class AbstractStoreObject implements DomainObjectInterface, StoreObjectInterface,
+	StoreObjectContainerInterface, StoreObjectDeleteInterface {
+	
 	/**
-	 * @var LocalDirectory
-	 */
-	private $localDirectory;
-
-	/**
-	 * LocalFile constructor.
+	 * Returns the object's size.
 	 *
-	 * @param string $name
-	 * @param LocalDirectory $localDirectory
+	 * @return int
+	 * @throws
 	 */
-	public function __construct(string $name, LocalDirectory $localDirectory) {
-		parent::__construct($name);
-		$this->localDirectory = $localDirectory;
+	public function getSize():int {
+		return $this->getContent()->getSize();
 	}
 
 	/**
-	 * @return string
+	 * Deletes the object.
+	 *
+	 * @throws
 	 */
-	public function getPath():string {
-		return $this->localDirectory->getObjectPath($this->getName());
-	}
-
-	/**
-	 * @return LocalDirectory
-	 */
-	public function getParentContainer():StoreContainerInterface {
-		return $this->localDirectory;
+	public function delete() {
+		$this->getParentContainer()->deleteObject($this);
 	}
 }

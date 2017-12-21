@@ -21,6 +21,7 @@
 //
 namespace CodeInc\ObjectStorage\Sftp;
 use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 
 
 /**
@@ -34,7 +35,6 @@ class SftpFile extends AbstractFile {
 	 * @var SftpDirectory
 	 */
 	private $sftpDirectory;
-
 
 	/**
 	 * SftpFile constructor.
@@ -52,5 +52,12 @@ class SftpFile extends AbstractFile {
 	 */
 	public function getPath():string {
 		return $this->sftpDirectory->getObjectPath($this->getName());
+	}
+
+	/**
+	 * @return SftpDirectory
+	 */
+	public function getParentContainer():StoreContainerInterface {
+		return $this->sftpDirectory;
 	}
 }

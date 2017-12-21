@@ -15,50 +15,23 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:50
+// Date:     21/12/2017
+// Time:     20:52
 // Project:  lib-objectstorage
 //
-namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectDeleteInterface;
+namespace CodeInc\ObjectStorage\Utils\Interfaces;
 
 
 /**
- * Class LocalObject
+ * Interface StoreObjectDeleteInterface
  *
- * @package CodeInc\ObjectStorage\Local
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class LocalFile extends AbstractFile {
+interface StoreObjectDeleteInterface extends StoreObjectInterface {
 	/**
-	 * @var LocalDirectory
+	 * @return void
+	 * @throws
 	 */
-	private $localDirectory;
-
-	/**
-	 * LocalFile constructor.
-	 *
-	 * @param string $name
-	 * @param LocalDirectory $localDirectory
-	 */
-	public function __construct(string $name, LocalDirectory $localDirectory) {
-		parent::__construct($name);
-		$this->localDirectory = $localDirectory;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPath():string {
-		return $this->localDirectory->getObjectPath($this->getName());
-	}
-
-	/**
-	 * @return LocalDirectory
-	 */
-	public function getParentContainer():StoreContainerInterface {
-		return $this->localDirectory;
-	}
+	public function delete();
 }

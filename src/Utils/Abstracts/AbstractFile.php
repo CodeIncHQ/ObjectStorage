@@ -20,7 +20,7 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Utils\Abstracts;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
 use Guzzle\Http\EntityBody;
 
 
@@ -30,7 +30,7 @@ use Guzzle\Http\EntityBody;
  * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-abstract class AbstractFile implements StoreObjectInterface {
+abstract class AbstractFile extends AbstractStoreObject {
 	/**
 	 * @var string
 	 */
@@ -63,7 +63,7 @@ abstract class AbstractFile implements StoreObjectInterface {
 	 *
 	 * @return string
 	 */
-	abstract public function getPath():string;
+	abstract protected function getPath():string;
 
 	/**
 	 * @return int
