@@ -82,14 +82,14 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 	}
 
 	/**
-	 * @param string $bucketName
+	 * @param string $name
 	 * @throws B2BucketException
 	 */
-	protected function setName(string $bucketName) {
-		if (empty($bucketName)) {
+	protected function setName(string $name) {
+		if (empty($name)) {
 			throw new B2BucketException($this,"The bucket name can not be empty");
 		}
-		$this->name = $bucketName;
+		$this->name = $name;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 	 * @param int $retryOnFailure
 	 * @throws B2BucketException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
 		int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			$this->b2Client->upload([
@@ -159,7 +159,7 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 		catch (\Throwable $exception) {
 			if ($retryOnFailure > 0) {
 				sleep(self::WAIT_BETWEEN_FAILURES);
-				$this->putObject($cloudStorageObject, --$retryOnFailure);
+				$this->uploadObject($cloudStorageObject, --$retryOnFailure);
 			}
 			else {
 				throw new B2BucketException($this,
@@ -201,6 +201,30 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 
 	/**
 	 * @param string $objectName
+	 * @param int $retryOnFailure
+	 * @throws B2BucketException
+	 */
+	public function deleteObject(string $objectName, int $retryOnFailure = self::RETRY_ON_FAILURE) {
+		try {
+			if ($this->b2Client->deleteFile(['BucketName' => $this->name, 'FileName' => $objectName]) === false) {
+				throw new B2BucketException($this, "Unknow error");
+			}
+		}
+		catch (\Throwable $exception) {
+			if ($retryOnFailure > 0) {
+				sleep(self::WAIT_BETWEEN_FAILURES);
+				$this->deleteObject($objectName, --$retryOnFailure);
+			}
+			else {
+				throw new B2BucketException($this,
+					"Error while delete the object \"$objectName\" from the B2 bucket \"$this->name\"",
+					$exception);
+			}
+		}
+	}
+
+	/**
+	 * @param string $objectName
 	 * @return bool
 	 * @throws B2BucketException
 	 */
@@ -216,6 +240,13 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 				"Error while checking for the object \"$objectName\" in the B2 bucket \"$this->name\"",
 				$exception);
 		}
+	}
+
+	/**
+	 * @return B2BucketIterator
+	 */
+	public function getIterator():B2BucketIterator {
+		return new B2BucketIterator($this);
 	}
 
 }

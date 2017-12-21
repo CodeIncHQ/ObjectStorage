@@ -55,9 +55,11 @@ class B2BucketIterator implements StoreContainerIteratorInterface {
 	 * B2BucketIterator constructor.
 	 *
 	 * @param B2Bucket $b2Bucket
+	 * @throws B2BucketIteratorException
 	 */
 	public function __construct(B2Bucket $b2Bucket) {
 		$this->b2Bucket = $b2Bucket;
+		$this->listObjects();
 	}
 
 	/**
@@ -71,14 +73,16 @@ class B2BucketIterator implements StoreContainerIteratorInterface {
 	 * @param int $retryOnFailure
 	 * @throws B2BucketIteratorException
 	 */
-	public function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE) {
+	private function listObjects(int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			if (!empty($this->files)) {
 				$this->files = [];
 			}
 			foreach ($this->b2Bucket->getB2Client()->listFiles(['BucketName' => $this->b2Bucket->getName()]) as $file) {
 				/** @var File $file */
-				$this->files[] = $file;
+				if (basename($file->getName()) != ".bzEmpty") {
+					$this->files[] = $file;
+				}
 			}
 		}
 		catch (\Throwable $exception) {

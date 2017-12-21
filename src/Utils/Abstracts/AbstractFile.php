@@ -87,7 +87,7 @@ abstract class AbstractFile implements StoreObjectInterface {
 	public function getContent():EntityBody {
 		if (!$this->content) {
 			try {
-				if (($f = fopen($this->getPath(), 'r'))) {
+				if (($f = fopen($this->getPath(), 'r')) === false) {
 					throw new AbstractFileException($this,
 						"Unable to open the local file \"{$this->getPath()}\" in reading mode");
 				}

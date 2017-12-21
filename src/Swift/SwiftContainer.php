@@ -200,7 +200,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 	 * @param array|null $httpHeaders
 	 * @throws SwiftContainerException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
+	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null,
 		array $httpHeaders = null, int $retryOnFailure = self::RETRY_ON_FAILURE) {
 		try {
 			$headers = DataObject::stockHeaders(
@@ -220,7 +220,7 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 		catch (\Throwable $exception) {
 			if ($retryOnFailure > 0) {
 				sleep(self::WAIT_BETWEEN_FAILURES);
-				$this->putObject($cloudStorageObject, $httpHeaders, --$retryOnFailure);
+				$this->uploadObject($cloudStorageObject, $httpHeaders, --$retryOnFailure);
 			}
 			else {
 				throw new SwiftContainerException($this,
@@ -247,8 +247,37 @@ class SwiftContainer implements StoreContainerInterface, \IteratorAggregate {
 				return $this->getObject($objectName, --$retryOnFailure);
 			}
 			else {
-				throw new SwiftContainerException($this, "Error while uploading the object \"$objectName\" "
-					."to the Swift Container bucket \"$this->name\"", $exception);
+				throw new SwiftContainerException(
+					$this,
+					"Error while uploading the object \"$objectName\" "
+					."to the Swift Container bucket \"$this->name\"",
+					$exception
+				);
+			}
+		}
+	}
+
+	/**
+	 * @param string $objectName
+	 * @param int $retryOnFailure
+	 * @throws SwiftContainerException
+	 */
+	public function deleteObject(string $objectName, int $retryOnFailure = self::RETRY_ON_FAILURE) {
+		try {
+			$this->containerClient->deleteObject($objectName);
+		}
+		catch (\Throwable $exception) {
+			if ($retryOnFailure > 0) {
+				sleep(self::WAIT_BETWEEN_FAILURES);
+				$this->deleteObject($objectName, --$retryOnFailure);
+			}
+			else {
+				throw new SwiftContainerException(
+					$this,
+					"Error while deleting the object \"$objectName\" "
+					."to the Swift Container bucket \"$this->name\"",
+					$exception
+				);
 			}
 		}
 	}

@@ -41,7 +41,14 @@ interface StoreContainerInterface extends ServiceInterface {
 	 * @return void
 	 * @throws
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null);
+	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null);
+
+	/**
+	 * @param string $objectName
+	 * @return void
+	 * @throws
+	 */
+	public function deleteObject(string $objectName);
 
 	/**
 	 * @param string $objectName

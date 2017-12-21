@@ -36,7 +36,7 @@ class AbstractFileException extends ObjectStorageException implements StoreObjec
 	/**
 	 * @var AbstractFile
 	 */
-	private $file;
+	protected $file;
 
 	/**
 	 * AbstactDirectoryFileException constructor.

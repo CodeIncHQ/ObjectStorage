@@ -44,7 +44,7 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 	 * @param string|null $objectName
 	 * @throws AbstractDirectoryException
 	 */
-	public function putObject(StoreObjectInterface $cloudStorageObject, string $objectName = null) {
+	public function uploadObject(StoreObjectInterface $cloudStorageObject, string $objectName = null) {
 		try {
 			if (($f = fopen($this->getObjectPath($objectName ?? $cloudStorageObject->getName()), "w")) === false) {
 				throw new AbstractDirectoryException($this, "Unable to open the object for writing");
@@ -75,9 +75,24 @@ abstract class AbstractDirectory implements StoreContainerInterface, \IteratorAg
 			return file_exists($this->getObjectPath($objectName));
 		}
 		catch (\Throwable $exception) {
-			throw new AbstractDirectoryException($this,
+			throw new AbstractDirectoryException(
+				$this,
 				"Error while checking if the object \"$objectName\" exists",
-				$exception);
+				$exception
+			);
+		}
+	}
+
+	/**
+	 * @param string $objectName
+	 * @throws AbstractDirectoryException
+	 */
+	public function deleteObject(string $objectName) {
+		if (!unlink($this->getObjectPath($objectName))) {
+			throw new AbstractDirectoryException(
+				$this,
+				"Unknow error while deleting the object \"$objectName\""
+			);
 		}
 	}
 }
