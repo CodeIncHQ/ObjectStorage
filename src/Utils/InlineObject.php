@@ -114,4 +114,17 @@ class InlineObject implements StoreObjectInterface {
 	public function setStringContent(string $content) {
 		$this->setContent(EntityBody::fromString($content));
 	}
+
+	/**
+	 * Sets the content from a file.
+	 *
+	 * @param string $path
+	 * @throws InlineObjectException
+	 */
+	public function setFileContent(string $path) {
+		if (($f = fopen($path, 'r')) === false) {
+			throw new InlineObjectException($this,"Unable to open the file \"$path\"");
+		}
+		$this->setContent(new EntityBody($f));
+	}
 }
