@@ -80,7 +80,7 @@ $destinationContainer->uploadObject(
 );
 ```
 
-### Listing object
+### Listing objects
 ```php
 foreach ($container as $file) {
     var_dump($file->getName());
