@@ -13,7 +13,7 @@ This library provides an abstraction layer for various cloud and local object st
 ```php
 use CodeInc\ObjectStorage;
 
-// SFTP container
+// SFTP container with private key authentication
 $sftpDirectory = ObjectStorage\Sftp\SftpDirectory::factoryPubKey(
     "/remote/path/to/files",
     "hostname.local",
@@ -21,10 +21,19 @@ $sftpDirectory = ObjectStorage\Sftp\SftpDirectory::factoryPubKey(
     "path/to/public-key.pub",
     "path/to/private-key",
     "optional-key-passphrase"
+    22 // optional port number
+);
+
+// SFTP container with user/password authentication
+$sftpDirectory = ObjectStorage\Sftp\SftpDirectory::factoryPassword(
+    "hostname.local",
+    "remote-user",
+    "remote-password",
+    22 // optional port number
 );
 
 // Local file system container
-$localDirectory = new ObjectStorage\Local\LocalDirectory(
+$localDirectory = ObjectStorage\Local\LocalDirectory::factory(
     "/path/to/files"
 );
 
