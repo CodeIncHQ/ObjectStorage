@@ -1,8 +1,8 @@
 {
-  "name": "codeinchq/lib-objectstorage",
-  "version": "1.3.4",
+  "name": "codeinc/lib-objectstorage",
+  "version": "1.3.5",
   "description": "Sophos backup tools",
-  "homepage": "https://github.com/codeinchq/lib-objectstorage",
+  "homepage": "https://github.com/CodeIncHQ/lib-objectstorage",
   "type": "library",
   "license": "MIT",
   "require": {
