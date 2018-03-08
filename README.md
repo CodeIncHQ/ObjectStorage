@@ -112,3 +112,15 @@ if ($object instanceof StoreObjectDeleteInterface) {
 ```
 
 For objects implementing the `StoreObjectDeleteInterface` you can call the `delete()` method directory on the object.
+
+
+## Installation
+This library is available through [Packagist](https://packagist.org/packages/codeinc/lib-objectstorage) and can be installed using [Composer](https://getcomposer.org/): 
+
+```bash
+composer require codeinc/lib-objectstorage
+```
+
+# License
+
+The library is published under the MIT license (see [`LICENSE`](LICENSE) file).
