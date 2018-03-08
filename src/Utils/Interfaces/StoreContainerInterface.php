@@ -20,7 +20,6 @@
 // Project:  lib-objectstorage
 //
 namespace CodeInc\ObjectStorage\Utils\Interfaces;
-use CodeInc\Service\Service\ServiceInterface;
 
 
 /**
@@ -29,7 +28,7 @@ use CodeInc\Service\Service\ServiceInterface;
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerInterface extends ServiceInterface {
+interface StoreContainerInterface {
 	/**
 	 * @return string
 	 */

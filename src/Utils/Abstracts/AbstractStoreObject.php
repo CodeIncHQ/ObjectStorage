@@ -23,7 +23,6 @@ namespace CodeInc\ObjectStorage\Utils\Abstracts;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectContainerInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectDeleteInterface;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
-use CodeInc\Service\DomainObject\DomainObjectInterface;
 
 
 /**
@@ -32,7 +31,7 @@ use CodeInc\Service\DomainObject\DomainObjectInterface;
  * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-abstract class AbstractStoreObject implements DomainObjectInterface, StoreObjectInterface,
+abstract class AbstractStoreObject implements StoreObjectInterface,
 	StoreObjectContainerInterface, StoreObjectDeleteInterface {
 	
 	/**
