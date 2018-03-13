@@ -115,7 +115,7 @@ For objects implementing the `StoreObjectDeleteInterface` you can call the `dele
 
 
 ## Installation
-This library is available through [Packagist](https://packagist.org/packages/codeinc/lib-objectstorage) and can be installed using [Composer](https://getcomposer.org/): 
+This library is available through [Packagist](https://packagist.org/packages/codeinc/object-storage) and can be installed using [Composer](https://getcomposer.org/): 
 
 ```bash
 composer require codeinc/object-storage
