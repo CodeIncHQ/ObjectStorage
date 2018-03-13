@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
 // Time:     16:55
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Swift;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerIteratorException;

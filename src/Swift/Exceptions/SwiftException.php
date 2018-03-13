@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
 // Time:     12:56
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Swift\Exceptions;
 use CodeInc\ObjectStorage\ObjectStorageException;

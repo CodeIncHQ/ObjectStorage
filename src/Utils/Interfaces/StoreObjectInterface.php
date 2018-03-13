@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
 // Time:     18:18
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Utils\Interfaces;
 use Guzzle\Http\EntityBody;

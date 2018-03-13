@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
 // Time:     23:50
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Swift;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;

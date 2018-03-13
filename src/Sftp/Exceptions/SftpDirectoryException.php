@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
 // Time:     13:14
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Sftp\Exceptions;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerExceptionInterface;

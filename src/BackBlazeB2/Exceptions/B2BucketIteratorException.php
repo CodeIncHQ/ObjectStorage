@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
 // Time:     17:14
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\BackBlazeB2\Exceptions;
 use CodeInc\ObjectStorage\BackBlazeB2\B2BucketIterator;

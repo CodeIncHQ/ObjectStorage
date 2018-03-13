@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
 // Time:     21:00
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Utils\Abstracts;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectContainerInterface;

@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
 // Time:     22:12
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\BackBlazeB2\Exceptions;
 use CodeInc\ObjectStorage\BackBlazeB2\B2Object;

@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
 // Time:     18:48
-// Project:  lib-objectstorage
+// Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\BackBlazeB2;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2BucketException;
@@ -254,9 +254,10 @@ class B2Bucket implements StoreContainerInterface, \IteratorAggregate {
 		}
 	}
 
-	/**
-	 * @return B2BucketIterator
-	 */
+    /**
+     * @return B2BucketIterator
+     * @throws Exceptions\B2BucketIteratorException
+     */
 	public function getIterator():B2BucketIterator {
 		return new B2BucketIterator($this);
 	}
