@@ -9,7 +9,7 @@
     "php": ">=7.0",
     "rackspace/php-opencloud": "^1.16",
     "cwhite92/b2-sdk-php": "^1.3",
-    "codeinc/error-render": "^1.0"
+    "codeinc/error-renderer": "^1.0"
   },
   "autoload": {
     "psr-4": {
