@@ -20,9 +20,9 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Sftp;
-use CodeInc\ObjectStorage\Utils\DirectoryIterator;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\DirectoryIterator;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 
 
 /**

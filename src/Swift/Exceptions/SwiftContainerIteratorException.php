@@ -21,8 +21,8 @@
 //
 namespace CodeInc\ObjectStorage\Swift\Exceptions;
 use CodeInc\ObjectStorage\Swift\SwiftContainerIterator;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorExceptionInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 use Throwable;
 
 

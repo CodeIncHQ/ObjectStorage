@@ -16,21 +16,22 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:44
+// Time:     20:52
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Interface StoreContainerHiddenFilesInterface
+ * Interface StoreObjectDeleteInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerHiddenFilesInterface {
+interface StoreObjectDeleteInterface extends StoreObjectInterface {
 	/**
 	 * @return void
+	 * @throws
 	 */
-	public function ignoreHiddenFiles();
+	public function delete();
 }

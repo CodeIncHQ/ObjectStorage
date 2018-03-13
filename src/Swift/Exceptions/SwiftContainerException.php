@@ -20,8 +20,8 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Swift\Exceptions;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerExceptionInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
 use CodeInc\ObjectStorage\Swift\SwiftContainer;
 use Throwable;
 

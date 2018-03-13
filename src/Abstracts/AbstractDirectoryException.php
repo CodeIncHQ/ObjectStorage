@@ -16,21 +16,44 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:10
+// Time:     15:17
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Abstracts;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use Throwable;
 
 
 /**
- * Interface StoreContainerFactoryExceptionInterface
+ * Class AbstractDirectoryException
  *
- * @package CodeInc\ObjectStorage\Utils\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerFactoryExceptionInterface {
+class AbstractDirectoryException extends ObjectStorageException implements StoreContainerExceptionInterface {
 	/**
-	 * @return string
+	 * @var AbstractDirectory
 	 */
-	public function getContainerName():string;
+	private $directory;
+
+	/**
+	 * AbstractDirectoryException constructor.
+	 *
+	 * @param AbstractDirectory $directory
+	 * @param string $message
+	 * @param Throwable|null $previous
+	 */
+	public function __construct(AbstractDirectory $directory, string $message, Throwable $previous = null) {
+		$this->directory = $directory;
+		parent::__construct($message, $previous);
+	}
+
+	/**
+	 * @return AbstractDirectory
+	 */
+	public function getContainer():StoreContainerInterface {
+		return $this->directory;
+	}
 }

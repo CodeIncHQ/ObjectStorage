@@ -16,58 +16,21 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     15:38
+// Time:     13:05
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Class DirectoryIterator
+ * Interface ContainerExceptionInterface
  *
- * @package CodeInc\ObjectStorage\Utils
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class DirectoryIterator extends \DirectoryIterator {
+interface StoreContainerExceptionInterface {
 	/**
-	 * @var bool
+	 * @return StoreContainerInterface
 	 */
-	protected $ignoreHiddenFiles = false;
-
-	/**
-	 * Ignores the hidden files (starting with a dot) in the directory.
-	 */
-	public function ignoreHiddenFiles() {
-		$this->ignoreHiddenFiles = true;
-	}
-
-	/**
-	 * Rewrinds the iterator.
-	 */
-	public function rewind() {
-		parent::rewind();
-		if (!$this->isCurrentItemValid()) {
-			$this->next();
-		}
-	}
-
-	/**
-	 * Moves to the next file.
-	 */
-	public function next() {
-		do {
-			parent::next();
-		}
-		while ($this->valid() && !$this->isCurrentItemValid());
-	}
-
-	/**
-	 * Valides if an item needs to be ignored.
-	 *
-	 * @return bool
-	 */
-	protected function isCurrentItemValid():bool {
-		$item = parent::current();
-		return ($item->isFile() && (!$this->ignoreHiddenFiles || substr($item->getBasename(), 0, 1) != "."));
-	}
+	public function getContainer():StoreContainerInterface;
 }

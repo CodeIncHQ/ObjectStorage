@@ -21,8 +21,8 @@
 //
 namespace CodeInc\ObjectStorage\Swift;
 use CodeInc\ObjectStorage\Swift\Exceptions\SwiftContainerIteratorException;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 use OpenCloud\ObjectStore\Resource\DataObject;
 
 

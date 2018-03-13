@@ -16,21 +16,40 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:05
+// Time:     21:00
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Abstracts;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectDeleteInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
 
 
 /**
- * Interface StoreObjectExceptionInterface
+ * Class AbstractObject
  *
- * @package CodeInc\ObjectStorage\Utils\Interfaces
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectExceptionInterface {
+abstract class AbstractStoreObject implements StoreObjectInterface,
+	StoreObjectContainerInterface, StoreObjectDeleteInterface {
+	
 	/**
-	 * @return StoreObjectInterface
+	 * Returns the object's size.
+	 *
+	 * @return int
+	 * @throws
 	 */
-	public function getObject():StoreObjectInterface;
+	public function getSize():int {
+		return $this->getContent()->getSize();
+	}
+
+	/**
+	 * Deletes the object.
+	 *
+	 * @throws
+	 */
+	public function delete() {
+		$this->getParentContainer()->deleteObject($this->getName());
+	}
 }

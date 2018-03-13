@@ -20,9 +20,9 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\DirectoryIterator;
+use CodeInc\ObjectStorage\DirectoryIterator;
 use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 
 
 /**

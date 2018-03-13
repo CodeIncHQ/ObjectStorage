@@ -15,22 +15,22 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     22:56
+// Date:     21/12/2017
+// Time:     17:14
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Interface StoreObjectMetadataInterface
+ * Interface StoreContainerIteratorExceptionInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectMetadataInterface {
+interface StoreContainerIteratorExceptionInterface {
 	/**
-	 * @return array
+	 * @return StoreContainerIteratorInterface
 	 */
-	public function getMetadata():array;
+	public function getIterator():StoreContainerIteratorInterface;
 }

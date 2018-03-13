@@ -15,45 +15,40 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     19:33
+// Date:     21/12/2017
+// Time:     15:09
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
-use CodeInc\ObjectStorage\ObjectStorageException;
+namespace CodeInc\ObjectStorage\Abstracts;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
 use Guzzle\Http\EntityBody;
 
 
 /**
- * Class InlineObject
+ * Class AbstractFile
  *
- * @package CodeInc\ObjectStorage\Utils
+ * @package CodeInc\ObjectStorage\Utils\Abstracts
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class InlineObject implements StoreObjectInterface {
+abstract class AbstractFile extends AbstractStoreObject {
 	/**
 	 * @var string
 	 */
-	protected $name;
-
-	/**
-	 * @var int
-	 */
-	protected $size;
+	private $name;
 
 	/**
 	 * @var EntityBody
+	 * @see AbstractFile::getContent()
 	 */
-	protected $content;
+	private $content;
 
 	/**
-	 * CloudStorageObject constructor.
+	 * AbstractFile constructor.
 	 *
 	 * @param string $name
 	 */
 	public function __construct(string $name) {
-		$this->setName($name);
+		$this->name = $name;
 	}
 
 	/**
@@ -64,67 +59,46 @@ class InlineObject implements StoreObjectInterface {
 	}
 
 	/**
-	 * @param string $name
+	 * Returns the file path.
+	 *
+	 * @return string
 	 */
-	public function setName(string $name) {
-		$this->name = $name;
-	}
+	abstract protected function getPath():string;
 
 	/**
 	 * @return int
-	 * @throws ObjectStorageException
+	 * @throws AbstractFileException
 	 */
 	public function getSize():int {
-		return $this->size ?? $this->getContent()->getSize();
-	}
-
-	/**
-	 * @param int $size
-	 */
-	public function setSize(int $size) {
-		$this->size = $size;
+		try {
+			return filesize($this->getPath());
+		}
+		catch (\Throwable $exception) {
+			throw new AbstractFileException($this,
+				"Error while reading the size of the local file \"{$this->getPath()}\"",
+				$exception);
+		}
 	}
 
 	/**
 	 * @return EntityBody
-	 * @throws InlineObjectException
+	 * @throws AbstractFileException
 	 */
 	public function getContent():EntityBody {
 		if (!$this->content) {
-			throw new InlineObjectException($this,
-				"No content is set for the object \"{$this->getName()}\"");
+			try {
+				if (($f = fopen($this->getPath(), 'r')) === false) {
+					throw new AbstractFileException($this,
+						"Unable to open the local file \"{$this->getPath()}\" in reading mode");
+				}
+				$this->content = new EntityBody($f, $this->getSize());
+			}
+			catch (\Throwable $exception) {
+				throw new AbstractFileException($this,
+					"Unable to load the content of the local file \"{$this->getPath()}\"",
+					$exception);
+			}
 		}
 		return $this->content;
-	}
-
-	/**
-	 * Sets the content.
-	 *
-	 * @param EntityBody $content
-	 */
-	public function setContent(EntityBody $content) {
-		$this->content = $content;
-	}
-
-	/**
-	 * Sets the content from a string.
-	 *
-	 * @param string $content
-	 */
-	public function setStringContent(string $content) {
-		$this->setContent(EntityBody::fromString($content));
-	}
-
-	/**
-	 * Sets the content from a file.
-	 *
-	 * @param string $path
-	 * @throws InlineObjectException
-	 */
-	public function setFileContent(string $path) {
-		if (($f = fopen($path, 'r')) === false) {
-			throw new InlineObjectException($this,"Unable to open the file \"$path\"");
-		}
-		$this->setContent(new EntityBody($f));
 	}
 }

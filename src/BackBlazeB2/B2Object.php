@@ -22,8 +22,8 @@
 namespace CodeInc\ObjectStorage\BackBlazeB2;
 use ChrisWhite\B2\File;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2ObjectException;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractStoreObject;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Abstracts\AbstractStoreObject;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
 use Guzzle\Http\EntityBody;
 
 

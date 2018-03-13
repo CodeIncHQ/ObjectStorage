@@ -16,22 +16,58 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     20:52
+// Time:     15:38
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage;
 
 
 /**
- * Interface StoreObjectDeleteInterface
+ * Class DirectoryIterator
  *
- * @package CodeInc\ObjectStorage\Utils\Interfaces
+ * @package CodeInc\ObjectStorage\Utils
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectDeleteInterface extends StoreObjectInterface {
+class DirectoryIterator extends \DirectoryIterator {
 	/**
-	 * @return void
-	 * @throws
+	 * @var bool
 	 */
-	public function delete();
+	protected $ignoreHiddenFiles = false;
+
+	/**
+	 * Ignores the hidden files (starting with a dot) in the directory.
+	 */
+	public function ignoreHiddenFiles() {
+		$this->ignoreHiddenFiles = true;
+	}
+
+	/**
+	 * Rewrinds the iterator.
+	 */
+	public function rewind() {
+		parent::rewind();
+		if (!$this->isCurrentItemValid()) {
+			$this->next();
+		}
+	}
+
+	/**
+	 * Moves to the next file.
+	 */
+	public function next() {
+		do {
+			parent::next();
+		}
+		while ($this->valid() && !$this->isCurrentItemValid());
+	}
+
+	/**
+	 * Valides if an item needs to be ignored.
+	 *
+	 * @return bool
+	 */
+	protected function isCurrentItemValid():bool {
+		$item = parent::current();
+		return ($item->isFile() && (!$this->ignoreHiddenFiles || substr($item->getBasename(), 0, 1) != "."));
+	}
 }

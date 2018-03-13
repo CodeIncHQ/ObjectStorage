@@ -15,45 +15,33 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     21/12/2017
-// Time:     15:17
+// Date:     19/12/2017
+// Time:     18:18
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Abstracts;
-use CodeInc\ObjectStorage\ObjectStorageException;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerExceptionInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use Throwable;
+namespace CodeInc\ObjectStorage\Interfaces;
+use Guzzle\Http\EntityBody;
 
 
 /**
- * Class AbstractDirectoryException
+ * Interface StoreObjectInterface
  *
- * @package CodeInc\ObjectStorage\Utils\Abstracts
+ * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class AbstractDirectoryException extends ObjectStorageException implements StoreContainerExceptionInterface {
+interface StoreObjectInterface {
 	/**
-	 * @var AbstractDirectory
+	 * @return string
 	 */
-	private $directory;
+	public function getName():string;
 
 	/**
-	 * AbstractDirectoryException constructor.
-	 *
-	 * @param AbstractDirectory $directory
-	 * @param string $message
-	 * @param Throwable|null $previous
+	 * @return EntityBody
 	 */
-	public function __construct(AbstractDirectory $directory, string $message, Throwable $previous = null) {
-		$this->directory = $directory;
-		parent::__construct($message, $previous);
-	}
+	public function getContent():EntityBody;
 
 	/**
-	 * @return AbstractDirectory
+	 * @return int
 	 */
-	public function getContainer():StoreContainerInterface {
-		return $this->directory;
-	}
+	public function getSize():int;
 }

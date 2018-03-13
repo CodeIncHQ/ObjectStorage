@@ -21,8 +21,8 @@
 //
 namespace CodeInc\ObjectStorage\BackBlazeB2\Exceptions;
 use CodeInc\ObjectStorage\BackBlazeB2\B2BucketIterator;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorExceptionInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 use Throwable;
 
 

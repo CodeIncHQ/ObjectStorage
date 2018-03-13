@@ -20,8 +20,8 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Sftp;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Abstracts\AbstractFile;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
 
 
 /**

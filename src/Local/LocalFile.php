@@ -20,9 +20,9 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractFile;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectDeleteInterface;
+use CodeInc\ObjectStorage\Abstracts\AbstractFile;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectDeleteInterface;
 
 
 /**

@@ -19,9 +19,9 @@
 // Time:     13:58
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Abstracts;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+namespace CodeInc\ObjectStorage\Abstracts;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
 
 
 /**

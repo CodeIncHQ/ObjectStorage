@@ -15,22 +15,53 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     21/12/2017
-// Time:     20:56
+// Date:     19/12/2017
+// Time:     18:47
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Interface StoreObjectContainerInterface
+ * Interface StoreContainerInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectContainerInterface {
+interface StoreContainerInterface {
 	/**
-	 * @return StoreContainerInterface
+	 * @return string
 	 */
-	public function getParentContainer():StoreContainerInterface;
+	public function getName();
+
+	/**
+	 * @param StoreObjectInterface $storeObject
+	 * @param string|null $objectName
+	 * @param bool|null $allowStreaming
+	 * @return void
+	 * @throws
+	 */
+	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
+		bool $allowStreaming = null);
+
+	/**
+	 * @param string $objectName
+	 * @return void
+	 * @throws
+	 */
+	public function deleteObject(string $objectName);
+
+	/**
+	 * @param string $objectName
+	 * @return StoreObjectInterface
+	 * @throws
+	 */
+	public function getObject(string $objectName):StoreObjectInterface;
+
+	/**
+	 * @param string $objectName
+	 * @return bool
+	 * @throws
+	 */
+	public function hasObject(string $objectName):bool;
 }

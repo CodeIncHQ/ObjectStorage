@@ -20,7 +20,7 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Sftp\Exceptions;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerFactoryExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerFactoryExceptionInterface;
 use Throwable;
 
 

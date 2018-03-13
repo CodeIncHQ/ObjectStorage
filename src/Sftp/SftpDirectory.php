@@ -20,8 +20,8 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Sftp;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractDirectory;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Abstracts\AbstractDirectory;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\Sftp\Exceptions\SftpDirectoryException;
 use CodeInc\ObjectStorage\Sftp\Exceptions\SftpDirectoryFactoryException;
 use CodeInc\ObjectStorage\Sftp\Exceptions\SftpException;

@@ -16,19 +16,19 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     21/12/2017
-// Time:     13:05
+// Time:     17:11
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Interface ContainerExceptionInterface
+ * Interface StoreContainerIteratorInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerExceptionInterface {
+interface StoreContainerIteratorInterface extends \Iterator {
 	/**
 	 * @return StoreContainerInterface
 	 */

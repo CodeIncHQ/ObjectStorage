@@ -20,8 +20,8 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Local\Exceptions;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectExceptionInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
 use CodeInc\ObjectStorage\Local\LocalFile;
 use Throwable;
 

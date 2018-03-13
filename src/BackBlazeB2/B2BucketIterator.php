@@ -22,8 +22,8 @@
 namespace CodeInc\ObjectStorage\BackBlazeB2;
 use ChrisWhite\B2\File;
 use CodeInc\ObjectStorage\BackBlazeB2\Exceptions\B2BucketIteratorException;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerInterface;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreContainerIteratorInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreContainerIteratorInterface;
 
 
 /**

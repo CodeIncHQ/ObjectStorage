@@ -20,9 +20,9 @@
 // Project:  ObjectStorage
 //
 namespace CodeInc\ObjectStorage\Local;
-use CodeInc\ObjectStorage\Utils\Abstracts\AbstractDirectory;
+use CodeInc\ObjectStorage\Abstracts\AbstractDirectory;
 use CodeInc\ObjectStorage\Local\Exceptions\LocalDirectoryException;
-use CodeInc\ObjectStorage\Utils\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
 
 
 /**

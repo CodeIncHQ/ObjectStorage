@@ -15,53 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     19/12/2017
-// Time:     18:47
+// Date:     20/12/2017
+// Time:     19:27
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
+namespace CodeInc\ObjectStorage;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectExceptionInterface;
+use CodeInc\ObjectStorage\Interfaces\StoreObjectInterface;
+use CodeInc\ObjectStorage\ObjectStorageException;
+use Throwable;
 
 
 /**
- * Interface StoreContainerInterface
+ * Class InlineObjectException
  *
- * @package CodeInc\ObjectStorage\Utils\Interfaces
+ * @package CodeInc\ObjectStorage\Utils
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreContainerInterface {
+class InlineObjectException extends ObjectStorageException implements StoreObjectExceptionInterface {
 	/**
-	 * @return string
+	 * @var InlineObject
 	 */
-	public function getName();
+	private $object;
 
 	/**
-	 * @param StoreObjectInterface $storeObject
-	 * @param string|null $objectName
-	 * @param bool|null $allowStreaming
-	 * @return void
-	 * @throws
+	 * InlineDataObjectException constructor.
+	 *
+	 * @param InlineObject $object
+	 * @param string $message
+	 * @param Throwable|null $previous
 	 */
-	public function uploadObject(StoreObjectInterface $storeObject, string $objectName = null,
-		bool $allowStreaming = null);
+	public function __construct(InlineObject $object, string $message, Throwable $previous = null) {
+		$this->object = $object;
+		parent::__construct($message, $previous);
+	}
 
 	/**
-	 * @param string $objectName
-	 * @return void
-	 * @throws
+	 * @return InlineObject
 	 */
-	public function deleteObject(string $objectName);
-
-	/**
-	 * @param string $objectName
-	 * @return StoreObjectInterface
-	 * @throws
-	 */
-	public function getObject(string $objectName):StoreObjectInterface;
-
-	/**
-	 * @param string $objectName
-	 * @return bool
-	 * @throws
-	 */
-	public function hasObject(string $objectName):bool;
+	public function getObject():StoreObjectInterface {
+		return $this->object;
+	}
 }

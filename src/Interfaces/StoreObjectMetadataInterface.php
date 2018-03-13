@@ -16,32 +16,21 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     19/12/2017
-// Time:     18:18
+// Time:     22:56
 // Project:  ObjectStorage
 //
-namespace CodeInc\ObjectStorage\Utils\Interfaces;
-use Guzzle\Http\EntityBody;
+namespace CodeInc\ObjectStorage\Interfaces;
 
 
 /**
- * Interface StoreObjectInterface
+ * Interface StoreObjectMetadataInterface
  *
  * @package CodeInc\ObjectStorage\Utils\Interfaces
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-interface StoreObjectInterface {
+interface StoreObjectMetadataInterface {
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getName():string;
-
-	/**
-	 * @return EntityBody
-	 */
-	public function getContent():EntityBody;
-
-	/**
-	 * @return int
-	 */
-	public function getSize():int;
+	public function getMetadata():array;
 }
