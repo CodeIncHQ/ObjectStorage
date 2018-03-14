@@ -1,6 +1,6 @@
-# Code Inc.'s object storage library
+# PHP object storage library
 
-This library provides an abstraction layer for various cloud and local object storage plateforms including:
+This library, written in PHP 7, provides an abstraction layer for various cloud and local object storage plateforms including:
 * OpenStack Swift
 * BackBlaze B2
 * SFTP
